@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="175" height="175" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" source="examples/desert.tsx"/>
+ <tileset firstgid="49" name="GTA TILESET" tilewidth="32" tileheight="32">
+  <image source="GTA TILESET.jpg" width="2048" height="2048"/>
+ </tileset>
+ <tileset firstgid="4145" name="Water TIleset" tilewidth="32" tileheight="32">
+  <image source="Water TIleset.png" width="512" height="384"/>
+ </tileset>
+ <layer name="Full Desert" width="175" height="175">
+  <data encoding="base64" compression="zlib">
+   eJzt1MERgkAUBUFCMAJyMP/kPHmkLBX5jPShr+xSb2rXZVlWxtxv2979xl7nfnqPvc896k7M73k107sx30DV9G5oWLv/YbqHkumt0K52+6ZbqJneC17RLlXapUq7VGmXKu1SpV2qtEuVdqnSLlXapUq7VGmXKu1SpV2qtEuVdqnSLlXapUq7VGmXKu1SpV2qtEuVdqnSLlXapUq7VGmXKu1SpV2qtEuVdqnSLlXapUq7VGmXKu1SpV2qtEuVdqnSLlXapUq7VGmXKu1SpV2qtEuVdqnSLlXapUq7FG11q13OTrtUaZcq7VKlXcq0S5V2qdIuVdqlSrtUaZcq7VKlXaq0S5V2qdIuVdqlSrtUaZcq7VKlXaq0S5V2qdIuVdqlSrtUaZcq7VKlXaq0S5V2qdIuVdqlSrtUaZcq7VKlXaq0S5V2qdIuVdqlSrtUaZcq7VKlXaq0S5V2qdIuVdqlSrtUaZcq7VKlXaq0S5V2qdIuVdqlSrtUaZcq7VKlXaq0S5V2qdIuVdqlSrtUaZcq7VKlXaq0S5V2qdIuVdqlSrtUaZcq7VKlXaq0S5V2qdIuVdqlSrtUaZcq7VKlXaq0S5V2qdIuVdqlSrtUaZcq7VKlXaq0S5V2qdIuVdqlSrtUaZcq7VKlXaq0S5V2qdIuVdqlSrtUaZcq7VKlXaq0S5V2mbLV3rem/4vr0C413l3O7leNape9HN2odtnLdLNPD6y05PQ=
+  </data>
+ </layer>
+ <layer name="Tile Layer 1" width="175" height="175">
+  <data encoding="base64" compression="zlib">
+   eJzt3FFOGzEUhWEvgEqsgIfugC0gdf8raB/ajVTIHc3geia2x/b1yf0/6Sg0QBImf6M0UN5fQ3hnbPJaWd9uVn6f3rmfn531fcWu28U56/uqdT8WuA20a8v6vmK028r6vmK0+8jZcbG+rxjtPnJ2bM6O4Qdbep8ULrP18rePPXZa0+5bYBYLleeXvn+Vr6NmH69tj7vWX7vX5dS8/+xjjh+7OtrVnXdpuzm0u9YQ0a7mMKfdkPlzeh6j3Vqj2/39Ei/jeLotPf/slPVZyfHs9TEtH5vr4lG3I9v9/i1exufp6P168TmPZrT789+x/Ty9evvuPLWLOe3+eWEjF8J+6smMdq0fo559XtGu5hDNeJ2BjX3twKvR7bIxA+0qDhHtag60qzjsaFdviGhXb4hoV2vY0a7WsKNdrWFHu1rDjnb1hoh29YaIdvWGiHY1B9pVHWhXdaBd1YF2VQfaVRwi2tUadrSrN0THdnP90u56Q0S7WsOOdvWGiHb1hujYbg7trj3PaFd7ntGu3hDRrt4Q0a7WsKNdvSGiXa1hR7taw452tYYd7WoNO9rVHGhXed7RrubwtV1+jmz9YUe7msPXdnNod915R7u68452NQfaVZ53tKs3RLSrN0S0qzdEtKs37MeCdvXmHe3qzru0Xb4nrDHQruIQ0a7uvKNdvSFK282h3bWGiHafZ97Qrt4Q0a7uvKNd3XlHu5oD7aoOtKs872hXd97Rru68o13teUa7ekNEu88xr2j3+eYF7erOs+0Y0K7mPFuh3dDhMjzPqx7tHi/n7rG17kBl+L/dXL+l7fa4LentKvm74X1e9Wp31u1ktLtRaNe6jdWGaOV2rRtZdYhWbde6D9V5smK71vf/6kNEu88zb0rb3U6P75/Zbghfryv3vpL7NneaXm7u8h7drpbGSo4d3Z5L282Z+bh7dT9f/fnsvKvzz66/9PaVfH6ucfRR+rhr/fpuDh34VtPu9vZ2at0ufGtpd5XHXfjW8pxhO492Yan1dQbahTXahTKeM0BVyeu72yn/VsNKVvreBFCjtN30bdqFNV7fhSrahSrVn2cA+LcaVNEuVLW0GwLtwlbrz56HQLuwRbtQRbtQtXV7p136hQUed6GKdqGKdqGM701AFf9vAqr4WRyool2o4vkuVNEuVPEaGVTxuAtVNe0e0S6s8bgLVTzfhSrahSrahaqW76uFQLuwV9Pu9ucQaBf2an539PGUdmGt5vfvHk9pF9ZoF6pqv69Gu1gF7UIVrzNAFa8zQBXtQhWvM0DVzHZpHT21PGdo+fldfu8eervbbmmPtIveRrf7lgzopXe76Xm0i1F6tpt2+nY4PwTaRV8trzPk2j3rFhilR7u5hoHRerWbXiYwWq/nDMBsNe0ex/eEYY3fiwNVtc8ZNrQLazWv7x7fpl30cKeh2nb5txp6Gt1uuhBoF33MbpfHXfRCu1A18/nu9vZVu/SMUmetlDTUo11+Dge1rtqpWWu7oxbC2MtXmcVxmHmdPa7r2Ghpu8z3RneQXv6j66tt987tP/vcq/Ovrs/S2W1oPS6zbq91+y239+x9Z5+Xfoz116261ZsabcZ15K4v127u/b2OYekxvnuftH5+6W1dpSPrvwOz/n5Yfc3suTfbX2ZpZN8=
+  </data>
+ </layer>
+ <layer name="Roads" width="175" height="175">
+  <data encoding="base64" compression="zlib">
+   eJzt18sNgCAQBUAKwBaszro9aCPejQj4w5CZZA9m3xIOJGAIAAAAAAAAAAAAAPC8OV6vu/NvrQfwN2vsu+jTF3d/6/cHpDgntLbEdJX2c7lc1cyXZunXeFK5fm02VOT3/VA4l1oLrkqdzVz26JvnTEPrHQAAAH/i3wsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADa2wDf+M1M
+  </data>
+ </layer>
+</map>

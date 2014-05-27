@@ -23,7 +23,8 @@ public class GameScreen implements Screen {
 
     private SpriteBatch batch;
 
-    private OrthographicCamera cam;
+    private OrthographicCamera camPlayer;
+    private OrthographicCamera camMap;
 
     private Vector3 touched = new Vector3(0, 0, 0);
     private Vector3 mouse = new Vector3(0, 0, 0);
@@ -35,7 +36,7 @@ public class GameScreen implements Screen {
     private int camy = 0;
     private float x;
     private float y;
-    private int playerSpeed = 150;
+    private int playerSpeed = 145;
     private int AIspeed = 75;
     private int AIscaredtimer = 0;
     private boolean AIisscared = false;
@@ -50,7 +51,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(Game game) {
         this.game = game;
-        map = new TmxMapLoader().load("map.tmx");
+        map = new TmxMapLoader().load("GTA MAP.tmx");
         mapRender = new OrthogonalTiledMapRenderer(map);
         MapProperties prop = map.getProperties();
 
@@ -72,13 +73,13 @@ public class GameScreen implements Screen {
 
         mouse.x = Gdx.input.getX();
         mouse.y = Gdx.input.getY();
-        cam.unproject(mouse);
+        camPlayer.unproject(mouse);
 
         //aim the player at where the screen has been touched
         if (Gdx.input.isTouched()) {
             touched.x = Gdx.input.getX();
             touched.y = Gdx.input.getY();
-            cam.unproject(touched);
+            camPlayer.unproject(touched);
 
             p.mouseAngle(touched.x, touched.y);
         }
@@ -123,7 +124,7 @@ public class GameScreen implements Screen {
             Ped.update(delta);
         }
 
-        // update player
+        //collisions with player and pedestrians
         p.update(delta);
         for (Pedestrian Ped : Peds) {
             if (Ped != null && p.getBounds().overlaps(Ped.getBounds())) {
@@ -131,6 +132,7 @@ public class GameScreen implements Screen {
             }
         }
 
+        //collision between pedestrians
         for (int h = 0; h < Peds.length; h++) {
             for (int i = 0; i < Peds.length; i++) {
                 if (i != h && Peds[h] != null && Peds[h].getBounds().overlaps(Peds[i].getBounds())) {
@@ -139,6 +141,7 @@ public class GameScreen implements Screen {
             }
         }
 
+        //camera positioning
         if (p.getX() - Gdx.graphics.getWidth() / 2 - tilePixelWidth * 2 - 16 > 0 && p.getX() + Gdx.graphics.getWidth() / 2 < mapPixelWidth) {
             camx = (int) p.getX();
         } else if (p.getX() - Gdx.graphics.getWidth() / 2 - tilePixelWidth * 2 - 16 <= 0) {
@@ -155,58 +158,28 @@ public class GameScreen implements Screen {
             camy = mapPixelHeight - Gdx.graphics.getHeight() / 2;
         }
 
-        cam.position.set(camx, camy, 0);
-        cam.update();
+        camPlayer.position.set(camx, camy, 0);
+        camPlayer.update();
+        camMap.position.set(camx, camy, 0);
+        camMap.update();
+        camMap.zoom = 0.45f;
 
-        mapRender.setView(cam);
+        mapRender.setView(camMap);
         mapRender.render();
 
-        batch.setProjectionMatrix(cam.combined);
+        batch.setProjectionMatrix(camPlayer.combined);
         batch.begin();
 
+        //draw pedestrians
         for (Pedestrian AI1 : Peds) {
             if (AI1 != null) {
-                AI1.draw(batch, "P");
+                AI1.draw(batch, "PGreen");
             }
         }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            p.draw(batch);
-        } else {
-            p.draw(batch);
-        }
-
-//        for (int h = 0; h < AI.length; h++) {
-//            for (int i = 0; i < AI.length; i++) {
-//                if (i != h && AI[h] != null && AI[h].getBounds().overlaps(AI[i].getBounds())) {
-//                    if (p.getY() > AI[i].getY() && p.getY() > AI[h].getY() && AI[i].getY() > AI[h].getY()) {
-//                        p.draw(batch);
-//                        AI[i].draw(batch);
-//                        AI[h].draw(batch);
-//                    } else if (p.getY() < AI[i].getY() && p.getY() > AI[h].getY() && AI[i].getY() > AI[h].getY()) {
-//                        AI[i].draw(batch);
-//                        p.draw(batch);
-//                        AI[h].draw(batch);
-//                    } else if (p.getY() < AI[i].getY() && p.getY() < AI[h].getY() && AI[i].getY() > AI[h].getY()) {
-//                        AI[i].draw(batch);
-//                        AI[h].draw(batch);
-//                        p.draw(batch);
-//                    } else if (p.getY() > AI[i].getY() && p.getY() > AI[h].getY() && AI[i].getY() < AI[h].getY()) {
-//                        AI[h].draw(batch);
-//                        AI[i].draw(batch);
-//                        p.draw(batch);
-//                    } else if (p.getY() > AI[i].getY() && p.getY() < AI[h].getY() && AI[i].getY() < AI[h].getY()) {
-//                        AI[h].draw(batch);
-//                        p.draw(batch);
-//                        AI[i].draw(batch);
-//                    } else if (p.getY() < AI[i].getY() && p.getY() < AI[h].getY() && AI[i].getY() < AI[h].getY()) {
-//                        AI[h].draw(batch);
-//                        AI[i].draw(batch);
-//                        p.draw(batch);
-//                    }
-//                }
-//            }
-//        }
+        
+        //draw player
+        p.draw(batch);
+        
         batch.end();
     }
 
@@ -217,8 +190,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        cam = new OrthographicCamera();
-        cam.setToOrtho(false, 800, 600);
+        camPlayer = new OrthographicCamera();
+        camPlayer.setToOrtho(false, 800, 600);
+        camMap = new OrthographicCamera();
+        camMap.setToOrtho(false, 800, 600);
         batch = new SpriteBatch();
 
         Assets.load();

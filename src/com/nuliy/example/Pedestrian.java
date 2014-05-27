@@ -26,6 +26,7 @@ public class Pedestrian extends AI{
 
     public Pedestrian(float x, float y) {
         super(x,y);
+        
     }
     
     public int getHP(){
@@ -39,4 +40,6 @@ public class Pedestrian extends AI{
     public void shot(){
         health -= 20;
     }
+    
+    
 }

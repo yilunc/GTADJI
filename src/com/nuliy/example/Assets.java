@@ -23,7 +23,7 @@ public class Assets {
     {
         atlas = new TextureAtlas("walking.pack");
         stand = atlas.findRegion("walking - 3");
-        runRight = new Animation(1/8f,
+        runRight = new Animation(1/11f,
                 (atlas.findRegion("walking - 0.5")),
                 (atlas.findRegion("walking - 1")),
                 (atlas.findRegion("walking - 2")),
@@ -47,6 +47,8 @@ public class Assets {
                 (atlas.findRegion("walking - 4")),
                 (atlas.findRegion("walking - 3.5")),
                 (atlas.findRegion("walking - 3")));
+        
+        
     }
     
 }

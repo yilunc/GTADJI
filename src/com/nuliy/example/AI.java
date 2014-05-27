@@ -41,7 +41,7 @@ public class AI {
     }
 
     public void draw(SpriteBatch batch, String type) {
-        if (type.equals("P")) {
+        if (type == "PGreen") {
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runRight
                         .getKeyFrame(time, true);

@@ -173,7 +173,7 @@ public class GameScreen implements Screen {
         //draw pedestrians
         for (Pedestrian AI1 : Peds) {
             if (AI1 != null) {
-                AI1.draw(batch, "PGreen");
+                AI1.draw(batch, "G");
             }
         }
         

@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 /**
  *
- * @author lamonta
+ * 
  */
 public class Assets {
     

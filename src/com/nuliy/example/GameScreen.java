@@ -133,14 +133,14 @@ public class GameScreen implements Screen {
         p.update(delta);
 
         //collisions with player and pedestrians
-        for (Pedestrian Ped : Peds) {
-            if (Ped != null && p.getBounds().overlaps(Ped.getBounds())) {
-                Ped.handleCollision(p.getBounds());
+        for (int i = 0; i < Peds.length ; i ++) {
+            if (Peds[i] != null && p.getBounds().overlaps(Peds [i].getBounds())) {
+                Peds[i].handleCollision(p.getBounds());
                 if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                    Ped.punched();
-                    if (Ped.isDead() == true) {
-                        System.out.println(Ped.isDead());
-                        Ped = null;
+                    Peds[i].punched();
+                    if (Peds[i].isDead() == true) {
+                        System.out.println(Peds[i].isDead());
+                        Peds[i] = null;
                     }
                 }
             }

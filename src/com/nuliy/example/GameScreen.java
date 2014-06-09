@@ -30,6 +30,7 @@ public class GameScreen implements Screen {
     private Vector3 exactMove = new Vector3(0, 0, 0);
     private Player p;
     private Pedestrian[] Peds;
+    private Deadpeople[] deadPeds;
 
     private int camx = 0;
     private int camy = 0;
@@ -63,6 +64,7 @@ public class GameScreen implements Screen {
         mapPixelHeight = (mapHeight - 2) * tilePixelHeight;
 
         Peds = new Pedestrian[30];
+        deadPeds = new Deadpeople[25];
     }
 
     @Override
@@ -79,8 +81,8 @@ public class GameScreen implements Screen {
             touched.x = Gdx.input.getX();
             touched.y = Gdx.input.getY();
             cam.unproject(touched);
-
             p.mouseAngle(touched.x, touched.y);
+            
         }
 
         //player movement arguments
@@ -166,7 +168,7 @@ public class GameScreen implements Screen {
 
         for (Pedestrian AI1 : Peds) {
             if (AI1 != null) {
-                AI1.draw(batch, "P");
+                AI1.draw(batch, AI1.getColor() );
             }
         }
 
@@ -227,7 +229,7 @@ public class GameScreen implements Screen {
 
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] == null) {
-                Peds[i] = new Pedestrian((float) Math.random() * 1000, (float) Math.random() * 1000);
+                Peds[i] = new Pedestrian((float) Math.random() * 1000, (float) Math.random() * 1000, (int) (Math.random()*(6+1)));
             }
         }
 

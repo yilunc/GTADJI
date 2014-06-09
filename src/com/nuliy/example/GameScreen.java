@@ -23,8 +23,7 @@ public class GameScreen implements Screen {
 
     private SpriteBatch batch;
 
-    private OrthographicCamera camPlayer;
-    private OrthographicCamera camMap;
+    private OrthographicCamera camPlayer, camMap;
 
     private Vector3 touched = new Vector3(0, 0, 0);
     private Vector3 mouse = new Vector3(0, 0, 0);
@@ -36,7 +35,7 @@ public class GameScreen implements Screen {
     private int camy = 0;
     private float x;
     private float y;
-    private int playerSpeed = 145;
+    private int playerSpeed = 160;
     private int AIspeed = 75;
     private int AIscaredtimer = 0;
     private boolean AIisscared = false;
@@ -47,12 +46,13 @@ public class GameScreen implements Screen {
     private Game game;
 
     public TiledMap map;
-    private OrthogonalTiledMapRenderer mapRender;
+    private OrthogonalTiledMapRenderer mapRender, miniMapRender;
 
     public GameScreen(Game game) {
         this.game = game;
         map = new TmxMapLoader().load("GTA MAP.tmx");
         mapRender = new OrthogonalTiledMapRenderer(map);
+        miniMapRender = new OrthogonalTiledMapRenderer(map);
         MapProperties prop = map.getProperties();
 
         mapWidth = prop.get("width", Integer.class);
@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
         mapPixelWidth = (mapWidth - 2) * tilePixelWidth - 16;
         mapPixelHeight = (mapHeight - 2) * tilePixelHeight;
 
-        Peds = new Pedestrian[30];
+        Peds = new Pedestrian[500];
     }
 
     @Override
@@ -85,6 +85,11 @@ public class GameScreen implements Screen {
         }
 
         //player movement arguments
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            playerSpeed = 250;
+        } else {
+            playerSpeed = 160;
+        }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             p.setDX(playerSpeed);
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -101,41 +106,58 @@ public class GameScreen implements Screen {
             p.setDY(0);
         }
 
-        //make the Ai scared ans run away from the player
+        //make the Ai scared and run away from the player
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             AIscaredtimer = 200;
+            p.angleRound();
+            p.punch();
+        } else {
+            p.stopPunch();
+
         }
 
-        if (AIscaredtimer > 0) {
-            AIisscared = true;
-            AIscaredtimer--;
-        } else {
-            AIisscared = false;
+        for (Pedestrian AI1 : Peds) {
+            if (AI1 != null && AIscaredtimer <= 0) {
+                AI1.move(75);
+            } else if (AI1 != null && AIscaredtimer > 0) {
+                AI1.scared(p, 75 * 2);
+            }
+        }
+
+        //update positions of characters
+        for (Pedestrian Ped : Peds) {
+            if (Ped != null) {
+                Ped.update(delta);
+            }
+        }
+        p.update(delta);
+
+        //collisions with player and pedestrians
+        for (Pedestrian Ped : Peds) {
+            if (Ped != null && p.getBounds().overlaps(Ped.getBounds())) {
+                Ped.handleCollision(p.getBounds());
+                if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                    Ped.punched();
+                    if (Ped.isDead() == true) {
+                        System.out.println(Ped.isDead());
+                        Ped = null;
+                    }
+                }
+            }
         }
 
         for (Pedestrian AI1 : Peds) {
             if (AI1 != null && AIisscared == false) {
                 AI1.move(75);
             } else if (AI1 != null && AIisscared == true) {
-                AI1.scared(p, 75 * 2);
-            }
-        }
-        for (Pedestrian Ped : Peds) {
-            Ped.update(delta);
-        }
-
-        //collisions with player and pedestrians
-        p.update(delta);
-        for (Pedestrian Ped : Peds) {
-            if (Ped != null && p.getBounds().overlaps(Ped.getBounds())) {
-                Ped.handleCollision(p.getBounds());
+                AI1.scared(p, 75);
             }
         }
 
         //collision between pedestrians
         for (int h = 0; h < Peds.length; h++) {
             for (int i = 0; i < Peds.length; i++) {
-                if (i != h && Peds[h] != null && Peds[h].getBounds().overlaps(Peds[i].getBounds())) {
+                if (i != h && Peds[h] != null && Peds[i] != null && Peds[h].getBounds().overlaps(Peds[i].getBounds())) {
                     Peds[h].handleCollision(Peds[i].getBounds());
                 }
             }
@@ -160,11 +182,14 @@ public class GameScreen implements Screen {
 
         camPlayer.position.set(camx, camy, 0);
         camPlayer.update();
-        camMap.position.set(camx, camy, 0);
+        camMap.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
         camMap.update();
-        camMap.zoom = 0.45f;
+        camMap.zoom = 1.3f;
 
-        mapRender.setView(camMap);
+        miniMapRender.setView(camMap);
+        miniMapRender.render();
+
+        mapRender.setView(camPlayer);
         mapRender.render();
 
         batch.setProjectionMatrix(camPlayer.combined);
@@ -176,10 +201,10 @@ public class GameScreen implements Screen {
                 AI1.draw(batch, "G");
             }
         }
-        
+
         //draw player
         p.draw(batch);
-        
+
         batch.end();
     }
 
@@ -202,7 +227,7 @@ public class GameScreen implements Screen {
 
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] == null) {
-                Peds[i] = new Pedestrian((float) Math.random() * 1000, (float) Math.random() * 1000);
+                Peds[i] = new Pedestrian((float) Math.random() * 10000, (float) Math.random() * 10000);
             }
         }
 

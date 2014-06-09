@@ -10,11 +10,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-/** 
+/**
  *
  * @author yilun
  */
-public class Pedestrian extends AI{
+public class Pedestrian extends AI {
 
     private Rectangle bounds;
     private Vector2 velocity;
@@ -23,23 +23,26 @@ public class Pedestrian extends AI{
     private int AImovedecider;
     private int AImovetimer;
     private int health;
+    private boolean isDead = false;
 
     public Pedestrian(float x, float y) {
-        super(x,y);
-        
+        super(x, y);
+        health = 100;
     }
-    
-    public int getHP(){
-        return health;
+
+    public boolean isDead() {
+        if (health <= 0) {
+            isDead = true;
+        }
+        return isDead;
     }
-    
-    public void punched(){
+
+    public void punched() {
         health -= 10;
     }
-    
-    public void shot(){
+
+    public void shot() {
         health -= 20;
     }
-    
-    
+
 }

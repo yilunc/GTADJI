@@ -22,15 +22,15 @@ public class AI {
     private float time = 0;
     private int AImovedecider;
     private int AImovetimer;
-    private int health;
 
     public AI(float x, float y) {
-        bounds = new Rectangle(x, y, Assets.stand.getRegionWidth(), Assets.stand.getRegionHeight() / 4);
+        bounds = new Rectangle(x, y, Assets.stand.getRegionWidth(), Assets.stand.getRegionHeight());
         velocity = new Vector2(0, 0);
-        health = 100;
     }
 
     public void update(float deltaTime) {
+        bounds.height = frame.getRegionHeight();
+        bounds.width =frame.getRegionWidth();
         bounds.x += velocity.x * deltaTime;
         bounds.y += velocity.y * deltaTime;
         if (velocity.x != 0 || velocity.y != 0) {
@@ -106,15 +106,15 @@ public class AI {
 
     public void scared(Player p, int AIspeed) {
         if (p.getX() > bounds.x) {
-            velocity.x = -AIspeed;
+            //velocity.x = -AIspeed;
         } else if (p.getX() < bounds.x) {
-            velocity.x = AIspeed;
+           /// velocity.x = AIspeed;
         }
 
         if (p.getY() > bounds.y) {
-            velocity.y = -AIspeed;
+            ///velocity.y = -AIspeed;
         } else if (p.getY() < bounds.y) {
-            velocity.y = AIspeed;
+         //   velocity.y = AIspeed;
         }
     }
 

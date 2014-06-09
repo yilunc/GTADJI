@@ -18,6 +18,10 @@ public class Assets {
     public static TextureAtlas atlas;
     public static TextureRegion stand;
     public static Animation runRight;
+    public static Animation playerPunch90;
+    public static Animation playerPunch180;
+    public static Animation playerPunch270;
+    public static Animation playerPunch360;
     
     public static void load()
     {
@@ -48,6 +52,39 @@ public class Assets {
                 (atlas.findRegion("walking - 3.5")),
                 (atlas.findRegion("walking - 3")));
         
+        atlas = new TextureAtlas("punch.pack");
+        playerPunch90 = new Animation(1/11f,
+                (atlas.findRegion("punch 1 90")),
+                (atlas.findRegion("punch 2 90")),
+                (atlas.findRegion("punch 3 90")),
+                (atlas.findRegion("punch 4 90")),
+                (atlas.findRegion("punch 3 90")),
+                (atlas.findRegion("punch 2 90")),
+                (atlas.findRegion("punch 1 90")));
+        playerPunch180 = new Animation(1/11f,
+                (atlas.findRegion("punch 1 180")),
+                (atlas.findRegion("punch 2 180")),
+                (atlas.findRegion("punch 3 180")),
+                (atlas.findRegion("punch 4 180")),
+                (atlas.findRegion("punch 3 180")),
+                (atlas.findRegion("punch 2 180")),
+                (atlas.findRegion("punch 1 180")));
+        playerPunch270 = new Animation(1/11f,
+                (atlas.findRegion("punch 1 270")),
+                (atlas.findRegion("punch 2 270")),
+                (atlas.findRegion("punch 3 270")),
+                (atlas.findRegion("punch 4 270")),
+                (atlas.findRegion("punch 3 270")),
+                (atlas.findRegion("punch 2 270")),
+                (atlas.findRegion("punch 1 270")));
+        playerPunch360 = new Animation(1/11f,
+                (atlas.findRegion("punch 1 360")),
+                (atlas.findRegion("punch 2 360")),
+                (atlas.findRegion("punch 3 360")),
+                (atlas.findRegion("punch 4 360")),
+                (atlas.findRegion("punch 3 360")),
+                (atlas.findRegion("punch 2 360")),
+                (atlas.findRegion("punch 1 360")));
         
     }
     

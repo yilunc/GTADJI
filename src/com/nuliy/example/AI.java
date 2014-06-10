@@ -40,12 +40,10 @@ public class AI {
         }
     }
 
-    public void draw(SpriteBatch batch, int type) {     
- 
-            
-        
+    public void draw(SpriteBatch batch, int type) {
 
         if (type == 1) {
+            System.out.println("here");
             frame = Assets.standGreen;
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runGreen
@@ -83,9 +81,12 @@ public class AI {
                 frame = Assets.standGreen;
                 batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 135, true);
             }
-             
+        }
+
         if (type == 2) {
+            System.out.println("here");
             frame = Assets.standRed;
+            System.out.println("here");
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runRed
                         .getKeyFrame(time, true);
@@ -113,7 +114,6 @@ public class AI {
             } else if (velocity.x == 0 && velocity.y < 0) {
                 frame = Assets.runRed
                         .getKeyFrame(time, true);
-
                 batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 0, true);
             } else if (velocity.x > 0 && velocity.y < 0 && velocity.x == -velocity.y) {
                 frame = Assets.runRed
@@ -288,10 +288,8 @@ public class AI {
                 batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 135, true);
             }
         }
-        }
     }
 
-    
     public void move(int AIspeed) {
         if (AImovetimer <= 0) {
             AImovetimer = (int) (Math.random() * 100);
@@ -341,12 +339,6 @@ public class AI {
         return bounds.y;
     }
 
-     public boolean isDead()
-    {
-       
-            return true;
-        
-    }
     public float getHeight() {
         return bounds.height;
     }

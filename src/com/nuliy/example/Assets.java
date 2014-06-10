@@ -23,8 +23,7 @@ public class Assets {
     public static TextureRegion standOrange;
     public static TextureRegion standPurple;
     public static TextureRegion standGrey;
-    public static TextureRegion DeadGreen;
-    
+  
     public static Animation runRight;
     public static Animation runGreen;
     public static Animation runRed;
@@ -32,7 +31,6 @@ public class Assets {
     public static Animation runOrange;
     public static Animation runPurple;
     public static Animation runGrey;
-    public static Animation DyingGreen;
     
     public static void load()
     {
@@ -89,13 +87,6 @@ public class Assets {
                 (atlas.findRegion("walkingGreen - 4")),
                 (atlas.findRegion("walkingGreen - 3.5")),
                 (atlas.findRegion("walkingGreen - 3")));
-        
-        atlas = new TextureAtlas("DEADGreen.pack");
-        DeadGreen = atlas.findRegion("DyingGreen-2");
-        DyingGreen = new Animation(1/2f,
-                (atlas.findRegion("DyingGreen1")),
-                (atlas.findRegion("DyingGreen-2")));
-          
         
         atlas = new TextureAtlas("PEDRed.pack");
         standRed = atlas.findRegion("walkingRed - 3");

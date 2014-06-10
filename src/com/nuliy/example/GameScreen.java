@@ -30,8 +30,6 @@ public class GameScreen implements Screen {
     private Vector3 exactMove = new Vector3(0, 0, 0);
     private Player p;
     private Pedestrian[] Peds;
-    private Deadpeople[] deadPeds;
-
     private int camx = 0;
     private int camy = 0;
     private float x;
@@ -63,8 +61,7 @@ public class GameScreen implements Screen {
         mapPixelWidth = (mapWidth - 2) * tilePixelWidth - 16;
         mapPixelHeight = (mapHeight - 2) * tilePixelHeight;
 
-        Peds = new Pedestrian[30];
-        deadPeds = new Deadpeople[25];
+        Peds = new Pedestrian[300];
     }
 
     @Override
@@ -230,6 +227,7 @@ public class GameScreen implements Screen {
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] == null) {
                 Peds[i] = new Pedestrian((float) Math.random() * 1000, (float) Math.random() * 1000, (int) (Math.random()*(6+1)));
+                
             }
         }
 

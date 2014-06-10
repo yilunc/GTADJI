@@ -18,19 +18,20 @@ public class AI {
 
     protected Rectangle bounds;
     protected Vector2 velocity;
-    protected TextureRegion frame;
+    protected TextureRegion frame = Assets.stand;
     protected float time = 0;
     protected int AImovedecider;
     protected int AImovetimer;
     protected int health;
 
     public AI(float x, float y) {
-        bounds = new Rectangle(x, y, Assets.stand.getRegionWidth(), Assets.stand.getRegionHeight() / 4);
+        bounds = new Rectangle(x, y, Assets.stand.getRegionWidth(), Assets.stand.getRegionHeight());
         velocity = new Vector2(0, 0);
-        health = 100;
     }
 
     public void update(float deltaTime) {
+        bounds.height = frame.getRegionHeight();
+        bounds.width = frame.getRegionWidth();
         bounds.x += velocity.x * deltaTime;
         bounds.y += velocity.y * deltaTime;
         if (velocity.x != 0 || velocity.y != 0) {
@@ -41,7 +42,6 @@ public class AI {
     }
 
     public void draw(SpriteBatch batch, int type) {
-
         if (type == 1) {
             
             frame = Assets.standGreen;
@@ -82,7 +82,7 @@ public class AI {
                 batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 135, true);
             }
         }
-
+        
         if (type == 2) {
           
             frame = Assets.standRed;
@@ -164,7 +164,6 @@ public class AI {
                 batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 135, true);
             }
         }
-
 
         if (type == 4) {
             frame = Assets.standOrange;
@@ -290,7 +289,8 @@ public class AI {
         }
     }
 
-    public void move(int AIspeed) {
+
+public void move(int AIspeed) {
         if (AImovetimer <= 0) {
             AImovetimer = (int) (Math.random() * 100);
             AImovedecider = (int) (Math.random() * 5);
@@ -315,15 +315,15 @@ public class AI {
 
     public void scared(Player p, int AIspeed) {
         if (p.getX() > bounds.x) {
-            velocity.x = -AIspeed;
+            //velocity.x = -AIspeed;
         } else if (p.getX() < bounds.x) {
-            velocity.x = AIspeed;
+           /// velocity.x = AIspeed;
         }
 
         if (p.getY() > bounds.y) {
-            velocity.y = -AIspeed;
+            ///velocity.y = -AIspeed;
         } else if (p.getY() < bounds.y) {
-            velocity.y = AIspeed;
+         //   velocity.y = AIspeed;
         }
     }
 

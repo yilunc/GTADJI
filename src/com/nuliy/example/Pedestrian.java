@@ -22,6 +22,7 @@ public class Pedestrian extends AI {
     private float time = 0;
     private int health;
     private int colour;
+    private boolean isDead = false;
    
 
     public Pedestrian(float x, float y, int colour) {
@@ -30,12 +31,15 @@ public class Pedestrian extends AI {
         this.colour = colour;
     }
 
-    public int getHP() {
-        return health;
+    public boolean isDead(){
+        if (health <= 0){
+            isDead = true;
+        }
+        return isDead;
     }
-
+    
     public void punched() {
-        health -= 10;
+        health -= 20;
     }
 
     public void shot() {
@@ -46,8 +50,6 @@ public class Pedestrian extends AI {
         return this.colour;
     }
     
-    
-   
     
 }
   

@@ -30,7 +30,7 @@ public class GameScreen implements Screen {
     private Vector3 exactMove = new Vector3(0, 0, 0);
     private Player p;
     private Pedestrian[] Peds;
-    private Deadpeople[] deadPeds;
+    private DeadPed[] deadPeds;
 
     private int camx = 0;
     private int camy = 0;
@@ -64,8 +64,8 @@ public class GameScreen implements Screen {
         mapPixelWidth = (mapWidth - 2) * tilePixelWidth - 16;
         mapPixelHeight = (mapHeight - 2) * tilePixelHeight;
 
-        Peds = new Pedestrian[30];
-        deadPeds = new Deadpeople[25];
+        Peds = new Pedestrian[300];
+        deadPeds = new DeadPed[25];
     }
 
     @Override
@@ -73,17 +73,14 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        mouse.x = Gdx.input.getX();
-        mouse.y = Gdx.input.getY();
-        camPlayer.unproject(mouse);
-
         //aim the player at where the screen has been touched
+        touched.x = Gdx.input.getX();
+        touched.y = Gdx.input.getY();
+        camPlayer.unproject(touched);
+
         if (Gdx.input.isTouched()) {
-            touched.x = Gdx.input.getX();
-            touched.y = Gdx.input.getY();
-            cam.unproject(touched);
             p.mouseAngle(touched.x, touched.y);
-            
+
         }
 
         //player movement arguments
@@ -135,13 +132,14 @@ public class GameScreen implements Screen {
         p.update(delta);
 
         //collisions with player and pedestrians
-        for (int i = 0; i < Peds.length ; i ++) {
-            if (Peds[i] != null && p.getBounds().overlaps(Peds [i].getBounds())) {
+        for (int i = 0; i < Peds.length; i++) {
+            if (Peds[i] != null && p.getBounds().overlaps(Peds[i].getBounds())) {
                 Peds[i].handleCollision(p.getBounds());
                 if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                     Peds[i].punched();
                     if (Peds[i].isDead() == true) {
                         System.out.println(Peds[i].isDead());
+                        
                         Peds[i] = null;
                     }
                 }
@@ -186,7 +184,7 @@ public class GameScreen implements Screen {
         camPlayer.update();
         camMap.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
         camMap.update();
-        camMap.zoom = 1.3f;
+        camMap.zoom = 1.0f;
 
         miniMapRender.setView(camMap);
         miniMapRender.render();
@@ -200,7 +198,7 @@ public class GameScreen implements Screen {
         //draw pedestrians
         for (Pedestrian AI1 : Peds) {
             if (AI1 != null) {
-                AI1.draw(batch, AI1.getColor() );
+                AI1.draw(batch, AI1.getColor());
             }
         }
 
@@ -229,10 +227,9 @@ public class GameScreen implements Screen {
 
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] == null) {
-                Peds[i] = new Pedestrian((float) Math.random() * 1000, (float) Math.random() * 1000, (int) (Math.random()*(6+1)));
+                Peds[i] = new Pedestrian((float) Math.random() * 1000, (float) Math.random() * 1000, (int) (Math.random() * (6 + 1)));
             }
         }
-
     }
 
     @Override

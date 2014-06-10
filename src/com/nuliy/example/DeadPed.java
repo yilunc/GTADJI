@@ -12,13 +12,13 @@ import static com.nuliy.example.Assets.atlas;
  *
  * @author vonha4671
  */
-public class Deadpeople {
+public class DeadPed {
 
     private int x, y;
     protected TextureRegion frame;
     protected float time = 0;
 
-    public Deadpeople(int x, int y) {
+    public DeadPed(int x, int y) {
         this.x = x;
         this.y = y;
     }

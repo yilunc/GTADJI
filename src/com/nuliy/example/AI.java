@@ -43,7 +43,7 @@ public class AI {
     public void draw(SpriteBatch batch, int type) {
 
         if (type == 1) {
-            System.out.println("here");
+            
             frame = Assets.standGreen;
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runGreen
@@ -84,9 +84,9 @@ public class AI {
         }
 
         if (type == 2) {
-            System.out.println("here");
+          
             frame = Assets.standRed;
-            System.out.println("here");
+          
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runRed
                         .getKeyFrame(time, true);

@@ -1,0 +1,19 @@
+
+M4Gun.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+M4GunFlash
+  rotate: false
+  xy: 1, 1
+  size: 108, 55
+  orig: 108, 55
+  offset: 0, 0
+  index: -1
+M4Gun
+  rotate: false
+  xy: 111, 16
+  size: 83, 40
+  orig: 83, 40
+  offset: 0, 0
+  index: -1

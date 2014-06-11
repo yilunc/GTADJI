@@ -39,11 +39,11 @@ public class Pedestrian extends AI {
     }
     
     public void punched() {
-        health -= 20;
+        health -= 5;
     }
 
     public void shot() {
-        health -= 20;
+        health -= 25;
     }
 
     public int getColor() {

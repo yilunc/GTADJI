@@ -14,24 +14,26 @@ import static com.nuliy.example.Assets.atlas;
  */
 public class DeadPed {
 
-    private int x, y;
+    private float x, y;
+    private int type;
     protected TextureRegion frame;
     protected float time = 0;
 
-    public DeadPed(int x, int y) {
+    public DeadPed(float x, float y, int type) {
         this.x = x;
         this.y = y;
+        this.type = type;
     }
 
-    public void drawDead(SpriteBatch batch, int type, float deltaTime) {
+    public void drawDead(SpriteBatch batch, float deltaTime) {
         if (type == 1) {
-            frame = Assets.DeadGreen;
-            frame = Assets.DyingGreen
+            frame = Assets.deadGreen;
+            frame = Assets.dyingGreen
                     .getKeyFrame(time, false);
-            batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 90, true);
+            batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, 90, true);
         }
 
-        if (Assets.DyingGreen.getKeyFrame(time, false) == atlas.findRegion("DyingGreen-2")) {
+        if (Assets.dyingGreen.getKeyFrame(time, false) == atlas.findRegion("DyingGreen-2")) {
             time = 0;
         } else {
             time += deltaTime;

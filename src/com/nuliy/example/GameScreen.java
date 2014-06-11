@@ -39,8 +39,11 @@ public class GameScreen implements Screen {
     private int playerSpeed = 160;
     private int AIspeed = 75;
     private int AIscaredtimer = 0;
+    private int ogNumDeadPeds = 30;
+    private int numDeadPeds = ogNumDeadPeds;
     private boolean AIisscared = false;
-    int mapWidth, mapHeight, tilePixelWidth, tilePixelHeight;
+    private int mapWidth, mapHeight, tilePixelWidth, tilePixelHeight;
+    private boolean isClicked, isHeldDown, isQDown, isQHeld;
 
     int mapPixelWidth, mapPixelHeight;
 
@@ -65,7 +68,7 @@ public class GameScreen implements Screen {
         mapPixelHeight = (mapHeight - 2) * tilePixelHeight;
 
         Peds = new Pedestrian[300];
-        deadPeds = new DeadPed[25];
+        deadPeds = new DeadPed[numDeadPeds];
     }
 
     @Override
@@ -74,21 +77,42 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //aim the player at where the screen has been touched
-        touched.x = Gdx.input.getX();
-        touched.y = Gdx.input.getY();
-        camPlayer.unproject(touched);
-
         if (Gdx.input.isTouched()) {
             p.mouseAngle(touched.x, touched.y);
-
+            touched.x = Gdx.input.getX();
+            touched.y = Gdx.input.getY();
+            if (isHeldDown == false) {
+                isClicked = true;
+            }
+            camPlayer.unproject(touched);
+            isHeldDown = true;
+        } else {
+            isHeldDown = false;
         }
 
-        //player movement arguments
+        //player running
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
             playerSpeed = 250;
         } else {
             playerSpeed = 160;
         }
+        
+        //player weapon switching
+        if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
+            if (isQHeld == false) {
+                isQDown = true;
+                System.out.println(isQDown);
+            }
+            isQHeld = true;
+        } else {
+            isQHeld = false;
+        }
+        if (isQDown == true){
+            p.rotateWeps();
+            isQDown = false;
+        }
+
+        //player movements
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             p.setDX(playerSpeed);
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -96,7 +120,6 @@ public class GameScreen implements Screen {
         } else {
             p.setDX(0);
         }
-
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             p.setDY(playerSpeed);
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
@@ -106,22 +129,32 @@ public class GameScreen implements Screen {
         }
 
         //make the Ai scared and run away from the player
+        //player punching
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             AIscaredtimer = 200;
             p.angleRound();
             p.punch();
         } else {
             p.stopPunch();
-
         }
-
-        for (Pedestrian AI1 : Peds) {
-            if (AI1 != null && AIscaredtimer <= 0) {
-                AI1.move(75);
-            } else if (AI1 != null && AIscaredtimer > 0) {
-                AI1.scared(p, 75 * 2);
+        
+        //player shoot M4
+        //pedestrians getting shot
+        if (isClicked == true){
+            System.out.println("ran");
+            p.shootM4();
+        }
+        for (Pedestrian Ped : Peds) {
+            if (Ped != null && isClicked == true && Ped.getBounds().contains(touched.x, touched.y)) {
+                p.shootM4();
+                Ped.shot();
+                Ped.isDead();
+                isClicked = false;
+                System.out.println("shot");
+            }else {
+                p.stopShootM4();
             }
-        }
+        }       
 
         //update positions of characters
         for (Pedestrian Ped : Peds) {
@@ -137,15 +170,11 @@ public class GameScreen implements Screen {
                 Peds[i].handleCollision(p.getBounds());
                 if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                     Peds[i].punched();
-                    if (Peds[i].isDead() == true) {
-                        System.out.println(Peds[i].isDead());
-                        
-                        Peds[i] = null;
-                    }
                 }
             }
         }
-
+        
+        //move all the AI
         for (Pedestrian AI1 : Peds) {
             if (AI1 != null && AIisscared == false) {
                 AI1.move(75);
@@ -163,6 +192,17 @@ public class GameScreen implements Screen {
             }
         }
 
+        //pedestrians dying
+        for (int i = 0; i < Peds.length; i++) {
+            if (Peds[i] != null) {
+                if (Peds[i].isDead() == true) {
+                    numDeadPeds = (numDeadPeds + 1) % (ogNumDeadPeds);
+                    deadPeds[numDeadPeds] = new DeadPed(Peds[i].getX(), Peds[i].getY(), Peds[i].getColor());
+                    Peds[i] = null;
+                }
+            }
+        }
+
         //camera positioning
         if (p.getX() - Gdx.graphics.getWidth() / 2 - tilePixelWidth * 2 - 16 > 0 && p.getX() + Gdx.graphics.getWidth() / 2 < mapPixelWidth) {
             camx = (int) p.getX();
@@ -171,7 +211,6 @@ public class GameScreen implements Screen {
         } else if (p.getX() + Gdx.graphics.getWidth() / 2 >= mapPixelWidth) {
             camx = mapPixelWidth - Gdx.graphics.getWidth() / 2;
         }
-
         if (p.getY() - Gdx.graphics.getHeight() / 2 - tilePixelHeight * 2 > 0 && p.getY() + Gdx.graphics.getHeight() / 2 < mapPixelHeight) {
             camy = (int) p.getY();
         } else if (p.getY() - Gdx.graphics.getHeight() / 2 - tilePixelHeight * 2 <= 0) {
@@ -194,6 +233,13 @@ public class GameScreen implements Screen {
 
         batch.setProjectionMatrix(camPlayer.combined);
         batch.begin();
+
+        //draw dead people
+        for (DeadPed dPed : deadPeds) {
+            if (dPed != null) {
+                dPed.drawDead(batch, delta);
+            }
+        }
 
         //draw pedestrians
         for (Pedestrian AI1 : Peds) {
@@ -227,7 +273,7 @@ public class GameScreen implements Screen {
 
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] == null) {
-                Peds[i] = new Pedestrian((float) Math.random() * 1000, (float) Math.random() * 1000, (int) (Math.random() * (6 + 1)));
+                Peds[i] = new Pedestrian((float) Math.random() * 10000, (float) Math.random() * 10000, (int) (Math.random() * (6 + 1)));
             }
         }
     }

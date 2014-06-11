@@ -21,7 +21,8 @@ public class Player {
     float time = 0;
     private TextureRegion frame = Assets.stand;
     private int lastRot;
-    private boolean punch = false;
+    private int gunID = 0;
+    private boolean punch = false, shootM4 = false;
 
     public Player(float x, float y) {
         bounds = new Rectangle(x, y, Assets.stand.getRegionWidth(), Assets.stand.getRegionHeight());
@@ -54,7 +55,8 @@ public class Player {
     }
 
     public void draw(SpriteBatch batch) {
-        if (punch == false) {
+            System.out.println(shootM4);
+        if (punch == false && shootM4 == false) {
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runRight
                         .getKeyFrame(time, true);
@@ -95,9 +97,16 @@ public class Player {
                         .getKeyFrame(time, true);
                 batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 45, true);
                 lastRot = 45;
-            } else {
+            } else if (gunID == 0) {
                 frame = Assets.stand;
                 batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, lastRot, true);
+            } else if (gunID == 1) {
+                frame = Assets.shootM4;
+                batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 0.55f, 2.1f, lastRot, true);
+            }
+            if (shootM4 == true) {
+                frame = Assets.flashM4;
+                batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 0.55f, 2.2f, lastRot, true);
             }
         } else if (punch == true) {
             if (lastRot == 90) {
@@ -139,23 +148,31 @@ public class Player {
             } else if (lastRot > 270 && lastRot < 360 && lastRot > 315) {
                 lastRot = 360;
             }
-        }else {
+        } else {
             if (velocity.x > 0 && velocity.y == 0) {
                 lastRot = 90;
-            } else if (velocity.x < 0 && velocity.y == 0) {                
+            } else if (velocity.x < 0 && velocity.y == 0) {
                 lastRot = 270;
-            } else if (velocity.x == 0 && velocity.y > 0) {                
+            } else if (velocity.x == 0 && velocity.y > 0) {
                 lastRot = 180;
-            } else if (velocity.x > 0 && velocity.y > 0 && velocity.x == velocity.y) {                
+            } else if (velocity.x > 0 && velocity.y > 0 && velocity.x == velocity.y) {
                 lastRot = 135;
-            } else if (velocity.x < 0 && velocity.y > 0 && -velocity.x == velocity.y) {                
+            } else if (velocity.x < 0 && velocity.y > 0 && -velocity.x == velocity.y) {
                 lastRot = 225;
-            } else if (velocity.x < 0 && velocity.y < 0 && velocity.x == velocity.y) {                
+            } else if (velocity.x < 0 && velocity.y < 0 && velocity.x == velocity.y) {
                 lastRot = 315;
-            } else if (velocity.x == 0 && velocity.y < 0) {                
+            } else if (velocity.x == 0 && velocity.y < 0) {
                 lastRot = 0;
             }
         }
+    }
+
+    public void rotateWeps() {
+        gunID = (gunID + 1) % 2;
+    }
+
+    public int getGunID() {
+        return gunID;
     }
 
     public Rectangle getBounds() {
@@ -213,6 +230,14 @@ public class Player {
 
     public void stopPunch() {
         punch = false;
+    }
+
+    public void shootM4() {
+        shootM4 = true;
+    }
+
+    public void stopShootM4() {
+        shootM4 = false;
     }
 
     //Ix = max (Ax,Bx)

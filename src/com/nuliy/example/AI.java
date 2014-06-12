@@ -23,6 +23,7 @@ public class AI {
     protected int AImovedecider;
     protected int AImovetimer;
     protected int health;
+    protected int lastRot;
 
     public AI(float x, float y) {
         bounds = new Rectangle(x, y, Assets.stand.getRegionWidth(), Assets.stand.getRegionHeight());
@@ -81,7 +82,7 @@ public class AI {
                 batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 135, true);
             }
         }
-        
+
         if (type == 2) {
             frame = Assets.standRed;
             if (velocity.x > 0 && velocity.y == 0) {
@@ -287,14 +288,11 @@ public class AI {
         }
     }
 
-
-public void move(int AIspeed) {
+    public void move(int AIspeed) {
         if (AImovetimer <= 0) {
-            AImovetimer = (int) (Math.random() * 100);
+            AImovetimer = (int) (Math.random() * 150);
             AImovedecider = (int) (Math.random() * 5);
-        }
-
-        if (AImovetimer >= 0) {
+        }else if (AImovetimer >= 0) {
             if (AImovedecider == 0) {
                 velocity.x = AIspeed;
             } else if (AImovedecider == 1) {
@@ -313,15 +311,15 @@ public void move(int AIspeed) {
 
     public void scared(Player p, int AIspeed) {
         if (p.getX() > bounds.x) {
-            //velocity.x = -AIspeed;
+            velocity.x = -AIspeed;
         } else if (p.getX() < bounds.x) {
-           /// velocity.x = AIspeed;
+            velocity.x = AIspeed;
         }
 
         if (p.getY() > bounds.y) {
-            ///velocity.y = -AIspeed;
+            velocity.y = -AIspeed;
         } else if (p.getY() < bounds.y) {
-         //   velocity.y = AIspeed;
+            velocity.y = AIspeed;
         }
     }
 

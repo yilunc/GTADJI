@@ -43,7 +43,6 @@ public class AI {
 
     public void draw(SpriteBatch batch, int type) {
         if (type == 1) {
-            
             frame = Assets.standGreen;
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runGreen
@@ -84,9 +83,7 @@ public class AI {
         }
         
         if (type == 2) {
-          
             frame = Assets.standRed;
-          
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runRed
                         .getKeyFrame(time, true);
@@ -114,6 +111,7 @@ public class AI {
             } else if (velocity.x == 0 && velocity.y < 0) {
                 frame = Assets.runRed
                         .getKeyFrame(time, true);
+
                 batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 0, true);
             } else if (velocity.x > 0 && velocity.y < 0 && velocity.x == -velocity.y) {
                 frame = Assets.runRed

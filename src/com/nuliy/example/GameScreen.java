@@ -197,7 +197,9 @@ public class GameScreen implements Screen {
             if (Peds[i] != null) {
                 if (Peds[i].isDead() == true) {
                     numDeadPeds = (numDeadPeds + 1) % (ogNumDeadPeds);
-                    deadPeds[numDeadPeds] = new DeadPed(Peds[i].getX(), Peds[i].getY(), Peds[i].getColor());
+                    deadPeds[numDeadPeds] = new DeadPed(Peds[i].getX(), Peds[i].getY(),Peds[i].getLastRot(),
+
+                            Peds[i].getColor());
                     Peds[i] = null;
                 }
             }

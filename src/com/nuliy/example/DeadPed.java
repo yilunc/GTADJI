@@ -30,7 +30,6 @@ public class DeadPed {
     public void drawDead(SpriteBatch batch, float deltaTime) {
         if (type == 1) {
             if (true) {
-                frame = Assets.deadGreen;
                 frame = Assets.dyingGreen
                         .getKeyFrame(time, false);
                 batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
@@ -45,7 +44,6 @@ public class DeadPed {
 
         if (type == 2) {
             if (true) {
-                frame = Assets.deadRed;
                 frame = Assets.dyingRed
                         .getKeyFrame(time, false);
                 batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);

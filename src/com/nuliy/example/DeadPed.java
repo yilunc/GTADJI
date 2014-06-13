@@ -15,16 +15,16 @@ import static com.nuliy.example.Assets.atlas;
 public class DeadPed {
 
     private float x, y;
-    private int type;
+    private int type, lastRot;
+    ;
     protected TextureRegion frame;
     protected float time = 0;
-    private int lastRot;
-    
+
     public DeadPed(float x, float y, int lastRot, int type) {
         this.x = x;
         this.y = y;
         this.type = type;
-        this.lastRot = lastRot;
+        this.lastRot = lastRot -270;
     }
 
     public void drawDead(SpriteBatch batch, float deltaTime) {

@@ -48,7 +48,7 @@ public class Assets {
     public static Animation dyingOrange;
     public static Animation dyingPurple;
     public static Animation dyingGrey;
-    
+
     public static Animation playerPunch90;
     public static Animation playerPunch180;
     public static Animation playerPunch270;
@@ -165,7 +165,7 @@ public class Assets {
                 (atlas.findRegion("walkingRed - 4")),
                 (atlas.findRegion("walkingRed - 3.5")),
                 (atlas.findRegion("walkingRed - 3")));
-        
+
         atlas = new TextureAtlas("DEADRed.pack");
         deadRed = atlas.findRegion("DyingRed2");
         dyingRed = new Animation(1 / 2f,
@@ -198,8 +198,8 @@ public class Assets {
                 (atlas.findRegion("walkingBlue - 4")),
                 (atlas.findRegion("walkingBlue - 3.5")),
                 (atlas.findRegion("walkingBlue- 3")));
-        
-         atlas = new TextureAtlas("DEADBlue.pack");
+
+        atlas = new TextureAtlas("DEADBlue.pack");
         deadBlue = atlas.findRegion("DyingBlue2");
         dyingBlue = new Animation(1 / 2f,
                 (atlas.findRegion("DyingBlue1")),
@@ -231,13 +231,12 @@ public class Assets {
                 (atlas.findRegion("walkingOrange - 4")),
                 (atlas.findRegion("walkingOrange - 3.5")),
                 (atlas.findRegion("walkingOrange - 3")));
-        
+
         atlas = new TextureAtlas("DEADOrange.pack");
         deadOrange = atlas.findRegion("DyingOrange2");
         dyingOrange = new Animation(1 / 2f,
                 (atlas.findRegion("DyingOrange1")),
                 (atlas.findRegion("DyingOrange2")));
-
 
         atlas = new TextureAtlas("PEDPurple.pack");
         standPurple = atlas.findRegion("walkingPurple - 3");
@@ -266,7 +265,7 @@ public class Assets {
                 (atlas.findRegion("walkingPurple - 3.5")),
                 (atlas.findRegion("walkingPurple - 3")));
 
-         atlas = new TextureAtlas("DEADPurple.pack");
+        atlas = new TextureAtlas("DEADPurple.pack");
         deadPurple = atlas.findRegion("DyingPurple2");
         dyingPurple = new Animation(1 / 2f,
                 (atlas.findRegion("DyingPurple1")),
@@ -298,14 +297,14 @@ public class Assets {
                 (atlas.findRegion("walkingGrey - 4")),
                 (atlas.findRegion("walkingGrey - 3.5")),
                 (atlas.findRegion("walkingGrey - 3")));
-        
-          atlas = new TextureAtlas("DEADGrey.pack");
+
+        atlas = new TextureAtlas("DEADGrey.pack");
         deadGrey = atlas.findRegion("DyingGrey2");
         dyingGrey = new Animation(1 / 2f,
                 (atlas.findRegion("DyingGrey1")),
                 (atlas.findRegion("DyingGrey2")));
 
-         atlas = new TextureAtlas("COP.pack");
+        atlas = new TextureAtlas("COP.pack");
         standCop = atlas.findRegion("walkingCop - 3");
         runCop = new Animation(1 / 8f,
                 (atlas.findRegion("walkingCop - 0.5")),
@@ -365,7 +364,7 @@ public class Assets {
                 (atlas.findRegion("punch 3 360")),
                 (atlas.findRegion("punch 2 360")),
                 (atlas.findRegion("punch 1 360")));
-        
+
         atlas = new TextureAtlas("M4Gun.pack");
         shootM4 = atlas.findRegion("M4Gun");
         flashM4 = atlas.findRegion("M4GunFlash");

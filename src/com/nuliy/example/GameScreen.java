@@ -71,7 +71,7 @@ public class GameScreen implements Screen {
         mapPixelWidth = (mapWidth - 2) * tilePixelWidth - 16;
         mapPixelHeight = (mapHeight - 2) * tilePixelHeight;
 
-        Peds = new Pedestrian[300];
+        Peds = new Pedestrian[500];
         deadPeds = new DeadPed[numDeadPeds];
     }
 
@@ -135,11 +135,16 @@ public class GameScreen implements Screen {
         //make the Ai scared and run away from the player
         //player punching
         if (p.getGunID() == 0 && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            AIscaredtimer = 200;
             p.angleRound();
             p.punch();
         } else {
             p.stopPunch();
+        }
+
+        for (Pedestrian AI1 : Peds) {
+            if (AI1 != null && p.getGunID() == 0 && (Gdx.input.isKeyPressed(Input.Keys.SPACE) || isClicked == true)) {
+                AIscaredtimer = 200;
+            }
         }
 
         if (AIscaredtimer > 0) {
@@ -153,7 +158,7 @@ public class GameScreen implements Screen {
         for (Pedestrian AI1 : Peds) {
             if (AI1 != null && AIisscared == false) {
                 AI1.move(75);
-            } else if (AI1 != null && AIisscared == true) {
+            } else if (AI1 != null && AIisscared == true && AI1.distanceFrom(p) < 200) {
                 AI1.scared(p, 75 * 2);
             }
         }
@@ -163,6 +168,7 @@ public class GameScreen implements Screen {
         if (isClicked == true && p.getGunID() == 1) {
             p.shootM4();
             for (Pedestrian Ped : Peds) {
+                AIscaredtimer = 200;
                 if (Ped != null && Ped.getBounds().contains(touched.x, touched.y)) {
                     Ped.shot();
                     Ped.isDead();
@@ -173,14 +179,6 @@ public class GameScreen implements Screen {
         } else {
             p.stopShootM4();
         }
-
-        //update positions of characters
-        for (Pedestrian Ped : Peds) {
-            if (Ped != null) {
-                Ped.update(delta);
-            }
-        }
-        p.update(delta);
 
         //map collisions
         MapObjects objects = map.getLayers().get("Object Layer 1").getObjects();
@@ -201,7 +199,7 @@ public class GameScreen implements Screen {
         //collisions with player and pedestrians
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] != null && p.getBounds().overlaps(Peds[i].getBounds())) {
-                Peds[i].handleCollision(p.getBounds());
+                p.handleCollision(Peds[i].getBounds());
                 if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                     Peds[i].punched();
                 }
@@ -265,6 +263,14 @@ public class GameScreen implements Screen {
                 dPed.drawDead(batch, delta);
             }
         }
+        
+         //update positions of characters
+        for (Pedestrian Ped : Peds) {
+            if (Ped != null) {
+                Ped.update(delta);
+            }
+        }
+        p.update(delta);
 
         //draw pedestrians
         for (Pedestrian AI1 : Peds) {
@@ -299,7 +305,7 @@ public class GameScreen implements Screen {
 
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] == null) {
-                Peds[i] = new Pedestrian((float) Math.random() * 10000, (float) Math.random() * 10000, (int) (Math.random() * (6 + 1)));
+                Peds[i] = new Pedestrian((float) Math.random() * 4000 + 1000, (float) Math.random() * 4000 + 1000, (int) (Math.random() * (6 + 1)));
             }
         }
     }

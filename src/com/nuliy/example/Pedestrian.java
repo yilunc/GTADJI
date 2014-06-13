@@ -20,8 +20,7 @@ public class Pedestrian extends AI {
    
     private TextureRegion frame = Assets.stand;
     private float time = 0;
-    private int health;
-    private int colour;
+    private int health, colour;
     private boolean isDead = false;
    
 
@@ -49,8 +48,6 @@ public class Pedestrian extends AI {
     public int getColor() {
         return this.colour;
     }
-    
-    
 }
   
 

@@ -20,10 +20,7 @@ public class AI {
     protected Vector2 velocity;
     protected TextureRegion frame = Assets.stand;
     protected float time = 0;
-    protected int AImovedecider;
-    protected int AImovetimer;
-    protected int health;
-    protected int lastRot;
+    protected int AImovedecider, AImovetimer, health, lastRot ,distance;
 
     public AI(float x, float y) {
         bounds = new Rectangle(x, y, Assets.stand.getRegionWidth(), Assets.stand.getRegionHeight());
@@ -356,6 +353,11 @@ public class AI {
         bounds.y = y;
     }
 
+    public int distanceFrom(Player p){
+        distance = (int) Math.sqrt((Math.pow(bounds.x - p.getX(), 2) + Math.pow(bounds.y - p.getY(), 2)));
+        return distance;
+    }
+    
     public void handleCollision(Rectangle c) {
         float x = Math.max(bounds.x, c.x);
         float y = Math.max(bounds.y, c.y);

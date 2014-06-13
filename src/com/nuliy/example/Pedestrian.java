@@ -17,13 +17,10 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Pedestrian extends AI {
 
-   
     private TextureRegion frame = Assets.stand;
     private float time = 0;
-    private int health;
-    private int colour;
+    private int health, colour;
     private boolean isDead = false;
-   
 
     public Pedestrian(float x, float y, int colour) {
         super(x, y);
@@ -31,15 +28,15 @@ public class Pedestrian extends AI {
         this.colour = colour;
     }
 
-    public boolean isDead(){
-        if (health <= 0){
+    public boolean isDead() {
+        if (health <= 0) {
             isDead = true;
         }
         return isDead;
     }
-    
+
     public void punched() {
-        health -= 5;
+        health -= 2;
     }
 
     public void shot() {
@@ -49,8 +46,4 @@ public class Pedestrian extends AI {
     public int getColor() {
         return this.colour;
     }
-    
-    
 }
-  
-

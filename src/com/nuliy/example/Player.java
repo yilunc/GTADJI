@@ -55,7 +55,6 @@ public class Player {
     }
 
     public void draw(SpriteBatch batch) {
-            System.out.println(shootM4);
         if (punch == false && shootM4 == false) {
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runRight
@@ -104,10 +103,6 @@ public class Player {
                 frame = Assets.shootM4;
                 batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 0.55f, 2.1f, lastRot, true);
             }
-            if (shootM4 == true) {
-                frame = Assets.flashM4;
-                batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 0.55f, 2.2f, lastRot, true);
-            }
         } else if (punch == true) {
             if (lastRot == 90) {
                 frame = Assets.playerPunch90
@@ -126,6 +121,9 @@ public class Player {
                         .getKeyFrame(time, true);
                 batch.draw(frame, bounds.x, bounds.y);
             }
+        } else if (shootM4 == true) {
+            frame = Assets.flashM4;
+            batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 0.55f, 2.2f, lastRot, true);
         }
     }
 

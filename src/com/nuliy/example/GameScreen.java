@@ -307,7 +307,7 @@ public class GameScreen implements Screen {
         batch.begin();
         
         font.draw(batch, "Health", 0, 600);
-        batch.
+        
         
         batch.end();
     }

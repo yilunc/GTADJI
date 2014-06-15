@@ -14,7 +14,6 @@ import com.badlogic.gdx.math.Vector2;
  *
  *
  */
-
 public class Player {
 
     private Rectangle bounds;
@@ -22,12 +21,15 @@ public class Player {
     float time = 0;
     private TextureRegion frame = Assets.stand;
     private int lastRot;
+    private int health;
     private int gunID = 0;
+    private int wantedLvl = 0;
     private boolean punch = false, shootM4 = false;
 
     public Player(float x, float y) {
         bounds = new Rectangle(x, y, Assets.stand.getRegionWidth(), Assets.stand.getRegionHeight());
         velocity = new Vector2(0, 0);
+        health = 200;
     }
 
     public void update(float deltaTime) {
@@ -56,6 +58,7 @@ public class Player {
     }
 
     public void draw(SpriteBatch batch) {
+        health -= 1;
         if (punch == false && shootM4 == false) {
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runRight
@@ -174,6 +177,22 @@ public class Player {
         return gunID;
     }
 
+    public void wantedKilledPed() {
+        wantedLvl += 25;
+    }
+
+    public void wantedKilledCop() {
+        if (wantedLvl < 300) {
+            wantedLvl += 100;
+        } else if (wantedLvl > 300) {
+            wantedLvl += 25;
+        }
+    }
+
+    public void wantedStoleCar() {
+        wantedLvl += 50;
+    }
+
     public Rectangle getBounds() {
         return bounds;
     }
@@ -205,6 +224,10 @@ public class Player {
     public void setVelocity(float dx, float dy) {
         velocity.x = dx;
         velocity.y = dy;
+    }
+
+    public int getHealth() {
+        return health;
     }
 
     public void setDX(float dx) {

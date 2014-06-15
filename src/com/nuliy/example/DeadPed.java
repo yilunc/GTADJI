@@ -58,7 +58,6 @@ public class DeadPed {
 
         if (type == 3) {
             if (true) {
-                frame = Assets.deadBlue;
                 frame = Assets.dyingBlue
                         .getKeyFrame(time, false);
                 batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
@@ -73,7 +72,6 @@ public class DeadPed {
 
         if (type == 4) {
             if (true) {
-                frame = Assets.deadOrange;
                 frame = Assets.dyingOrange
                         .getKeyFrame(time, false);
                 batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
@@ -88,7 +86,6 @@ public class DeadPed {
 
         if (type == 5) {
             if (true) {
-                frame = Assets.deadPurple;
                 frame = Assets.dyingPurple
                         .getKeyFrame(time, false);
                 batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
@@ -103,7 +100,6 @@ public class DeadPed {
 
         if (type == 6) {
             if (true) {
-                frame = Assets.deadGrey;
                 frame = Assets.dyingGrey
                         .getKeyFrame(time, false);
                 batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);

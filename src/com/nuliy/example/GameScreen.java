@@ -11,6 +11,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
@@ -25,16 +26,18 @@ import com.badlogic.gdx.math.Vector3;
 
 public class GameScreen implements Screen {
 
-    private SpriteBatch batch;
+    private SpriteBatch batch, batchMiniMap;
 
-    private OrthographicCamera camPlayer, camMap;
+    private OrthographicCamera camPlayer, camMiniMap, UI;
 
+    private Texture playermarker;
     private Vector3 touched = new Vector3(0, 0, 0);
     private Vector3 mouse = new Vector3(0, 0, 0);
     private Vector3 exactMove = new Vector3(0, 0, 0);
     private Player p;
     private Pedestrian[] Peds;
     private DeadPed[] deadPeds;
+    private MapObjects objects;
 
     private int camx = 0;
     private int camy = 0;
@@ -48,19 +51,22 @@ public class GameScreen implements Screen {
     private boolean AIisscared = false;
     private int mapWidth, mapHeight, tilePixelWidth, tilePixelHeight;
     private boolean isClicked, isHeldDown, isQDown, isQHeld;
+    private BitmapFont font = new BitmapFont();
 
     int mapPixelWidth, mapPixelHeight;
 
     private Game game;
 
-    public TiledMap map;
+    public TiledMap map, miniMap;
     private OrthogonalTiledMapRenderer mapRender, miniMapRender;
 
     public GameScreen(Game game) {
         this.game = game;
         map = new TmxMapLoader().load("GTA MAP.tmx");
         mapRender = new OrthogonalTiledMapRenderer(map);
+        miniMap = new TmxMapLoader().load("GTA MAP.tmx");
         miniMapRender = new OrthogonalTiledMapRenderer(map);
+        playermarker = new Texture(Gdx.files.internal("playermarkercircle.png"));
         MapProperties prop = map.getProperties();
 
         mapWidth = prop.get("width", Integer.class);
@@ -71,7 +77,7 @@ public class GameScreen implements Screen {
         mapPixelWidth = (mapWidth - 2) * tilePixelWidth - 16;
         mapPixelHeight = (mapHeight - 2) * tilePixelHeight;
 
-        Peds = new Pedestrian[500];
+        Peds = new Pedestrian[200];
         deadPeds = new DeadPed[numDeadPeds];
     }
 
@@ -140,13 +146,11 @@ public class GameScreen implements Screen {
         } else {
             p.stopPunch();
         }
-
         for (Pedestrian AI1 : Peds) {
-            if (AI1 != null && p.getGunID() == 0 && (Gdx.input.isKeyPressed(Input.Keys.SPACE) || isClicked == true)) {
+            if (AI1 != null && p.getGunID() == 0 && (Gdx.input.isKeyPressed(Input.Keys.SPACE) || (p.getGunID() == 1 && isClicked == true))) {
                 AIscaredtimer = 200;
             }
         }
-
         if (AIscaredtimer > 0) {
             AIisscared = true;
             AIscaredtimer--;
@@ -181,10 +185,9 @@ public class GameScreen implements Screen {
         }
 
         //map collisions
-        MapObjects objects = map.getLayers().get("Object Layer 1").getObjects();
+        objects = map.getLayers().get("Object Layer 1").getObjects();
 
         for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
-
             Rectangle rectangle = rectangleObject.getRectangle();
             if (Intersector.overlaps(rectangle, p.getBounds())) {
                 p.handleCollision(rectangle);
@@ -195,13 +198,13 @@ public class GameScreen implements Screen {
                 }
             }
         }
-
-        //collisions with player and pedestrians
-        for (int i = 0; i < Peds.length; i++) {
-            if (Peds[i] != null && p.getBounds().overlaps(Peds[i].getBounds())) {
-                p.handleCollision(Peds[i].getBounds());
+        
+        //pedestrians getting punched
+        for (Pedestrian Ped : Peds) {
+            if (Ped != null && p.getBounds().overlaps(Ped.getBounds())) {
+                p.handleCollision(Ped.getBounds());
                 if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                    Peds[i].punched();
+                    Ped.punched();
                 }
             }
         }
@@ -244,12 +247,7 @@ public class GameScreen implements Screen {
 
         camPlayer.position.set(camx, camy, 0);
         camPlayer.update();
-        camMap.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
-        camMap.update();
-        camMap.zoom = 1.0f;
-
-        miniMapRender.setView(camMap);
-        miniMapRender.render();
+        camMiniMap.update();
 
         mapRender.setView(camPlayer);
         mapRender.render();
@@ -278,10 +276,39 @@ public class GameScreen implements Screen {
                 AI1.draw(batch, AI1.getColor());
             }
         }
+        
+        //respawn a new pedestrian if they are dead
+        for (int i = 0; i < Peds.length; i++) {
+            if (Peds[i] == null) {
+                Peds[i] = new Pedestrian((float) Math.random() * 4000 + 1000, (float) Math.random() * 4000 + 1000, (int) (Math.random() * 6 + 1));
+            }
+        }
 
         //draw player
         p.draw(batch);
 
+        batch.end();
+        
+        batchMiniMap.setProjectionMatrix(camMiniMap.combined);
+        miniMapRender.setView(camMiniMap);
+        miniMapRender.render();
+        batchMiniMap.begin();
+        
+        batchMiniMap.draw(playermarker, p.getX() - (playermarker.getWidth()/2), p.getY() - (playermarker.getHeight()/2));
+        for (Pedestrian AI : Peds){
+            if (AI != null){
+                AI.draw(batchMiniMap, 1);
+            }
+        }
+        
+        batchMiniMap.end();
+        
+        batch.setProjectionMatrix(UI.combined);
+        batch.begin();
+        
+        font.draw(batch, "Health", 0, 600);
+        batch.
+        
         batch.end();
     }
 
@@ -295,9 +322,15 @@ public class GameScreen implements Screen {
     public void show() {
         camPlayer = new OrthographicCamera();
         camPlayer.setToOrtho(false, 800, 600);
-        camMap = new OrthographicCamera();
-        camMap.setToOrtho(false, 800, 600);
+        UI = new OrthographicCamera();
+        UI.setToOrtho(false, 800, 600);
+        camMiniMap = new OrthographicCamera(800, 600);
+        camMiniMap.zoom = 30f;
+        
         batch = new SpriteBatch();
+        batchMiniMap = new SpriteBatch();
+        
+        camMiniMap.position.set(-6500, -3500, 0);
 
         Assets.load();
 
@@ -305,7 +338,7 @@ public class GameScreen implements Screen {
 
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] == null) {
-                Peds[i] = new Pedestrian((float) Math.random() * 4000 + 1000, (float) Math.random() * 4000 + 1000, (int) (Math.random() * (6 + 1)));
+                Peds[i] = new Pedestrian((float) Math.random() * 4000 + 1000, (float) Math.random() * 4000 + 1000, (int) (Math.random() * 6 + 1));
             }
         }
     }

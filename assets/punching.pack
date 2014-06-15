@@ -1,0 +1,33 @@
+
+punching.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+punch 1
+  rotate: false
+  xy: 1, 54
+  size: 63, 44
+  orig: 63, 44
+  offset: 0, 0
+  index: -1
+punch 2
+  rotate: false
+  xy: 66, 54
+  size: 60, 44
+  orig: 60, 44
+  offset: 0, 0
+  index: -1
+punch 3
+  rotate: false
+  xy: 128, 35
+  size: 72, 63
+  orig: 72, 63
+  offset: 0, 0
+  index: -1
+punch 4
+  rotate: false
+  xy: 1, 1
+  size: 117, 51
+  orig: 117, 51
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,61 @@
+
+PEDGreen.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+walkingGreen - 3
+  rotate: false
+  xy: 1, 1
+  size: 61, 61
+  orig: 61, 61
+  offset: 0, 0
+  index: -1
+walkingGreen - 2.5
+  rotate: false
+  xy: 64, 8
+  size: 61, 54
+  orig: 61, 54
+  offset: 0, 0
+  index: -1
+walkingGreen - 2
+  rotate: false
+  xy: 127, 8
+  size: 61, 54
+  orig: 61, 54
+  offset: 0, 0
+  index: -1
+walkingGreen - 5
+  rotate: false
+  xy: 190, 8
+  size: 61, 54
+  orig: 61, 54
+  offset: 0, 0
+  index: -1
+walkingGreen - 3.5
+  rotate: false
+  xy: 253, 10
+  size: 59, 52
+  orig: 59, 52
+  offset: 0, 0
+  index: -1
+walkingGreen - 4
+  rotate: false
+  xy: 314, 10
+  size: 59, 52
+  orig: 59, 52
+  offset: 0, 0
+  index: -1
+walkingGreen - 0.5
+  rotate: false
+  xy: 375, 13
+  size: 60, 49
+  orig: 60, 49
+  offset: 0, 0
+  index: -1
+walkingGreen - 1
+  rotate: false
+  xy: 437, 13
+  size: 60, 49
+  orig: 60, 49
+  offset: 0, 0
+  index: -1

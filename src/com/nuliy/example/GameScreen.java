@@ -338,6 +338,7 @@ public class GameScreen implements Screen {
         }
         
         batch.end();
+        car.render(camPlayer.combined);
     }
 
     @Override

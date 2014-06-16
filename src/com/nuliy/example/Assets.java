@@ -60,7 +60,7 @@ public class Assets {
 
     public static void load() {
         
-        car = new Texture(Gdx.files.internal("HoverCar.jpg"));
+        car = new Texture(Gdx.files.internal("Car.png"));
         
         atlas = new TextureAtlas("walking.pack");
         stand = atlas.findRegion("walking - 3");

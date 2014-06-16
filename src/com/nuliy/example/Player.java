@@ -21,7 +21,7 @@ public class Player {
     float time = 0;
     private TextureRegion frame = Assets.stand;
     private int lastRot;
-    private int health;
+    private float health, healthLimit;
     private int gunID = 0;
     private int wantedLvl = 0;
     private boolean punch = false, shootM4 = false;
@@ -30,6 +30,7 @@ public class Player {
         bounds = new Rectangle(x, y, Assets.stand.getRegionWidth(), Assets.stand.getRegionHeight());
         velocity = new Vector2(0, 0);
         health = 200;
+        healthLimit = 200;
     }
 
     public void update(float deltaTime) {
@@ -193,7 +194,7 @@ public class Player {
     }
     
     public int getWantedLvl(){
-        return wantedLvl;
+        return wantedLvl =300;
     }
 
     public Rectangle getBounds() {
@@ -229,7 +230,7 @@ public class Player {
         velocity.y = dy;
     }
 
-    public int getHealth() {
+    public float getHealth() {
         return health;
     }
 
@@ -263,6 +264,11 @@ public class Player {
 
     public void stopShootM4() {
         shootM4 = false;
+    }
+    
+    public void getShot(){
+        health -= 20;
+        healthLimit -= 10;
     }
 
     //Ix = max (Ax,Bx)

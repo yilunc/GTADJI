@@ -44,6 +44,7 @@ public class GameScreen implements Screen {
     private Player p;
     private Car car;
     private Pedestrian[] Peds;
+    private Police [] Cop;
     private DeadPed[] deadPeds;
     private MapObjects objects;
 
@@ -93,6 +94,7 @@ public class GameScreen implements Screen {
 
         Peds = new Pedestrian[200];
         deadPeds = new DeadPed[numDeadPeds];
+        Cop = new Police[10];
     }
 
     @Override
@@ -135,6 +137,14 @@ public class GameScreen implements Screen {
             p.rotateWeps();
             isQDown = false;
         }
+        
+        for (Police cop : Cop){
+            if(cop.distanceFrom(p) < 200){
+                cop.shootPlayer(p);
+            }
+        }
+        
+
 
         //player movements
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
@@ -187,6 +197,8 @@ public class GameScreen implements Screen {
                 Ped.shot();
             }
         }
+        
+        
 
         //player shoot M4
         //pedestrians getting shot
@@ -335,6 +347,9 @@ public class GameScreen implements Screen {
             batch.draw(HUDfist, 725, 525, 50, 50);
         }else if (p.getGunID() == 1){
             batch.draw(HUDm4, 675, 525, 100, 50);
+        }
+        if((int) Math.ceil(p.getWantedLvl()/100) >= 1){
+            font.draw(batch, "Wanted Level: " + (int) Math.ceil(p.getWantedLvl()/100) , 640, 480);
         }
         
         batch.end();

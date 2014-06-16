@@ -41,6 +41,15 @@ public class Police extends AI {
             velocity.y = -AIspeed;
         }
     }
+    
+    public void shootPlayer(Player p){
+        int shotNum = (int) (Math.random() * 5);
+        
+        if (shotNum == 2)
+        {
+            p.getShot();
+        }
+    }
 
     public boolean isDead() {
         if (health <= 0) {

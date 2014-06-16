@@ -163,7 +163,7 @@ public class Assets {
                 (atlas.findRegion("DyingGreen-2")));
         
         atlas = new TextureAtlas("DEAD.pack");
-        dead = atlas.findRegion("DyingGreen-2");
+        dead = atlas.findRegion("Dying2");
         dying = new Animation(1 / 2f,
                 (atlas.findRegion("Dying1")),
                 (atlas.findRegion("Dying2")));

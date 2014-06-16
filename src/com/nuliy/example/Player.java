@@ -192,7 +192,7 @@ public class Player {
 
     public void wantedLvlDecrease() {
         if (wantedLvl < 300 && wantedLvl > 0) {
-            wantedLvl = wantedLvl - 0.05f;
+            wantedLvl = wantedLvl - 0.01f;
         }
     }
 

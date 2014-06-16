@@ -34,6 +34,8 @@ public class Assets {
     public static TextureRegion flashM4;
     public static TextureRegion healthbar;
 
+    public static TextureRegion standPolice;
+
     public static Animation runRight;
     public static Animation sprintRight;
     public static Animation runGreen;
@@ -50,12 +52,24 @@ public class Assets {
     public static Animation dyingPurple;
     public static Animation dyingGrey;
 
+    public static Animation policeM4;
+
     public static Animation playerPunch90;
     public static Animation playerPunch180;
     public static Animation playerPunch270;
     public static Animation playerPunch360;
 
     public static void load() {
+        atlas = new TextureAtlas("policeM4.atlas");
+        standPolice = atlas.findRegion("police - 0");
+        policeM4 = new Animation(1 / 10f,
+                (atlas.findRegion("police - 1")),
+                (atlas.findRegion("police - 2")),
+                (atlas.findRegion("police - 1")),
+                (atlas.findRegion("police - 0")),
+                (atlas.findRegion("police - 3")),
+                (atlas.findRegion("police - 0")));
+
         atlas = new TextureAtlas("walking.pack");
         stand = atlas.findRegion("walking - 3");
         runRight = new Animation(1 / 10f,
@@ -369,7 +383,7 @@ public class Assets {
         atlas = new TextureAtlas("M4Gun.pack");
         shootM4 = atlas.findRegion("M4Gun");
         flashM4 = atlas.findRegion("M4GunFlash");
-        
+
         atlas = new TextureAtlas("healthbar.atlas");
         healthbar = atlas.findRegion("healthbar");
     }

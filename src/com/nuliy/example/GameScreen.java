@@ -387,7 +387,7 @@ public class GameScreen implements Screen {
         }
 
         //draw player
-        p.draw(batch);
+        p.draw(batch, delta);
 
         batch.end();
 

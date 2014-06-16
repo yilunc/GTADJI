@@ -36,6 +36,8 @@ public class GameScreen implements Screen {
 
     private Texture playermarker;
     private Texture healthbar;
+    private Texture HUDfist;
+    private Texture HUDm4;
     private Vector3 touched = new Vector3(0, 0, 0);
     private Vector3 mouse = new Vector3(0, 0, 0);
     private Vector3 exactMove = new Vector3(0, 0, 0);
@@ -74,6 +76,8 @@ public class GameScreen implements Screen {
         miniMapRender = new OrthogonalTiledMapRenderer(map);
         playermarker = new Texture(Gdx.files.internal("playermarkercircle.png"));
         healthbar = new Texture(Gdx.files.internal("healthbar.png"));
+        HUDfist = new Texture(Gdx.files.internal("fist.png"));
+        HUDm4 = new Texture(Gdx.files.internal("m4.png"));
         MapProperties prop = map.getProperties();
 
         mapWidth = prop.get("width", Integer.class);
@@ -83,6 +87,8 @@ public class GameScreen implements Screen {
 
         mapPixelWidth = (mapWidth - 2) * tilePixelWidth - 16;
         mapPixelHeight = (mapHeight - 2) * tilePixelHeight;
+
+        font.scale(0.4f);
 
         Peds = new Pedestrian[200];
         deadPeds = new DeadPed[numDeadPeds];
@@ -311,10 +317,16 @@ public class GameScreen implements Screen {
         batchMiniMap.end();
 
         batch.setProjectionMatrix(UI.combined);
+
         batch.begin();
 
-        font.draw(batch, "Health", 0, 600);
-
+        font.draw(batch, "Health: " + p.getHealth() / 2, 690, 520);
+        if (p.getGunID() == 0){
+            batch.draw(HUDfist, 725, 525, 50, 50);
+        }else if (p.getGunID() == 1){
+            batch.draw(HUDm4, 675, 525, 100, 50);
+        }
+        
         batch.end();
     }
 
@@ -336,7 +348,7 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         batchMiniMap = new SpriteBatch();
 
-        camMiniMap.position.set(-6500, -3500, 0);
+        camMiniMap.position.set(12000, 9000, 0);
 
         Assets.load();
 

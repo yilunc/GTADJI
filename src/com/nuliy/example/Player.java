@@ -58,7 +58,6 @@ public class Player {
     }
 
     public void draw(SpriteBatch batch) {
-        health -= 1;
         if (punch == false && shootM4 == false) {
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runRight
@@ -191,6 +190,10 @@ public class Player {
 
     public void wantedStoleCar() {
         wantedLvl += 50;
+    }
+    
+    public int getWantedLvl(){
+        return wantedLvl;
     }
 
     public Rectangle getBounds() {

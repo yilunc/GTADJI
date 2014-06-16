@@ -44,6 +44,7 @@ public class GameScreen implements Screen {
     private Player p;
     private Pedestrian[] Peds;
     private DeadPed[] deadPeds;
+    private Police[] police;
     private MapObjects objects;
 
     private int camx = 0;
@@ -92,6 +93,7 @@ public class GameScreen implements Screen {
 
         Peds = new Pedestrian[200];
         deadPeds = new DeadPed[numDeadPeds];
+        police = new Police[10];
     }
 
     @Override

@@ -32,6 +32,8 @@ public class Assets {
     public static TextureRegion deadBlue;
     public static TextureRegion deadOrange;
     public static TextureRegion deadPurple;
+    public static TextureRegion dead;
+    
     public static TextureRegion shootM4;
     public static TextureRegion flashM4;
     public static TextureRegion healthbar;
@@ -52,6 +54,7 @@ public class Assets {
     public static Animation dyingOrange;
     public static Animation dyingPurple;
     public static Animation dyingGrey;
+     public static Animation dying;
 
     public static Animation playerPunch90;
     public static Animation playerPunch180;
@@ -142,6 +145,12 @@ public class Assets {
         dyingGreen = new Animation(1 / 2f,
                 (atlas.findRegion("DyingGreen1")),
                 (atlas.findRegion("DyingGreen-2")));
+        
+        atlas = new TextureAtlas("DEAD.pack");
+        dead = atlas.findRegion("DyingGreen-2");
+        dying = new Animation(1 / 2f,
+                (atlas.findRegion("Dying1")),
+                (atlas.findRegion("Dying2")));
 
         atlas = new TextureAtlas("PEDRed.pack");
         standRed = atlas.findRegion("walkingRed - 3");

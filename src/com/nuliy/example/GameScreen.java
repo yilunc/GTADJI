@@ -182,6 +182,22 @@ public class GameScreen implements Screen {
                 AI1.scared(p, 75 * 2);
             }
         }
+        
+        //move all police
+        for (Police cop : police){
+            if (p.getWantedLvl() >= 100 && cop.distanceFrom(p) > 200){
+                cop.setLastRot(p);
+                cop.chase(p);
+            }else if (p.getWantedLvl() >= 100 && cop.distanceFrom(p) < 200){
+                        System.out.println("shot");
+                cop.stop();
+                cop.setLastRot(p);
+                cop.shootPlayer(p);
+                p.isDead();
+            }else {
+                cop.move(AIspeed);
+            }
+        }
 
         //player decrease wanted level if less than three stars wanted
         p.wantedLvlDecrease();
@@ -331,7 +347,7 @@ public class GameScreen implements Screen {
         }
 
         //draw player
-        p.draw(batch);
+        p.draw(batch, delta);
 
         batch.end();
 

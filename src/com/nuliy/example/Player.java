@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import static com.nuliy.example.Assets.atlas;
 
 /**
  *
@@ -26,12 +27,18 @@ public class Player {
     private int gunID = 0;
     private float wantedLvl = 0;
     private boolean punch = false, shootM4 = false;
-
+    private boolean dead = false;
+    private float x;
+    private float y;
+    
     public Player(float x, float y) {
         bounds = new Rectangle(x, y, Assets.stand.getRegionWidth(), Assets.stand.getRegionHeight());
         velocity = new Vector2(0, 0);
         health = 200;
         healthLimit = 200;
+        x = this.x;
+        y = this.y;
+        
     }
 
     public void update(float deltaTime) {
@@ -59,7 +66,18 @@ public class Player {
         }
     }
 
-    public void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch, float deltaTime) {
+         if (dead == true) {
+                frame = Assets.dying
+                        .getKeyFrame(time, false);
+                batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
+            }
+
+            if (Assets.dying.getKeyFrame(time, false) == atlas.findRegion("dying2")) {
+                time = 0;
+            } else {
+                time += deltaTime;
+            }
         if (punch == false && shootM4 == false) {
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runRight
@@ -192,7 +210,7 @@ public class Player {
 
     public void wantedLvlDecrease() {
         if (wantedLvl < 300 && wantedLvl > 0) {
-            wantedLvl = wantedLvl - 0.01f;
+            wantedLvl = wantedLvl - 0.02f;
         }
     }
 
@@ -211,7 +229,6 @@ public class Player {
     public float getX() {
         return bounds.x;
     }
-
     public float getY() {
         return bounds.y;
     }
@@ -283,6 +300,16 @@ public class Player {
             health += 0.05f;
         }
     }
+    
+      public boolean isDead (){
+        if (health <= 0){
+            return dead = true;
+        }
+        else{
+            return dead = false;
+        }
+        }
+    
 
     //Ix = max (Ax,Bx)
     //Iy = max (Ay,By)

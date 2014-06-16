@@ -5,6 +5,8 @@ package com.nuliy.example;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -30,9 +32,14 @@ public class Assets {
     public static TextureRegion deadBlue;
     public static TextureRegion deadOrange;
     public static TextureRegion deadPurple;
-    public static TextureRegion deadCop;
+    public static TextureRegion dead;
+    
     public static TextureRegion shootM4;
     public static TextureRegion flashM4;
+    public static TextureRegion healthbar;
+    public static Texture car;
+
+    public static TextureRegion standPolice;
 
     public static Animation runRight;
     public static Animation sprintRight;
@@ -49,7 +56,9 @@ public class Assets {
     public static Animation dyingOrange;
     public static Animation dyingPurple;
     public static Animation dyingGrey;
-    public static Animation dyingCop;
+     public static Animation dying;
+
+    public static Animation policeM4;
 
     public static Animation playerPunch90;
     public static Animation playerPunch180;
@@ -57,6 +66,16 @@ public class Assets {
     public static Animation playerPunch360;
 
     public static void load() {
+        atlas = new TextureAtlas("policeM4.atlas");
+        standPolice = atlas.findRegion("police - 0");
+        policeM4 = new Animation(1 / 10f,
+                (atlas.findRegion("police - 1")),
+                (atlas.findRegion("police - 2")),
+                (atlas.findRegion("police - 1")),
+                (atlas.findRegion("police - 0")),
+                (atlas.findRegion("police - 3")),
+                (atlas.findRegion("police - 0")));
+
         atlas = new TextureAtlas("walking.pack");
         stand = atlas.findRegion("walking - 3");
         runRight = new Animation(1 / 10f,
@@ -140,6 +159,12 @@ public class Assets {
         dyingGreen = new Animation(1 / 2f,
                 (atlas.findRegion("DyingGreen1")),
                 (atlas.findRegion("DyingGreen-2")));
+        
+        atlas = new TextureAtlas("DEAD.pack");
+        dead = atlas.findRegion("DyingGreen-2");
+        dying = new Animation(1 / 2f,
+                (atlas.findRegion("Dying1")),
+                (atlas.findRegion("Dying2")));
 
         atlas = new TextureAtlas("PEDRed.pack");
         standRed = atlas.findRegion("walkingRed - 3");
@@ -376,6 +401,9 @@ public class Assets {
         atlas = new TextureAtlas("M4Gun.pack");
         shootM4 = atlas.findRegion("M4Gun");
         flashM4 = atlas.findRegion("M4GunFlash");
+
+        atlas = new TextureAtlas("healthbar.atlas");
+        healthbar = atlas.findRegion("healthbar");
     }
 
 }

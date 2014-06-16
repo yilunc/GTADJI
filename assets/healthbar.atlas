@@ -1,0 +1,12 @@
+
+healthbar.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+healthbar
+  rotate: false
+  xy: 1, 1
+  size: 429, 185
+  orig: 429, 185
+  offset: 0, 0
+  index: -1

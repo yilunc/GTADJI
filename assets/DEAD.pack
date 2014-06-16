@@ -1,0 +1,19 @@
+
+DEAD.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Dying2
+  rotate: false
+  xy: 1, 96
+  size: 95, 133
+  orig: 95, 133
+  offset: 0, 0
+  index: -1
+Dying1
+  rotate: false
+  xy: 1, 1
+  size: 66, 93
+  orig: 66, 93
+  offset: 0, 0
+  index: -1

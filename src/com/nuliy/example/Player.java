@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import static com.nuliy.example.Assets.atlas;
 
 /**
  *
@@ -21,12 +22,23 @@ public class Player {
     float time = 0;
     private TextureRegion frame = Assets.stand;
     private int lastRot;
+    private float health;
+    private float healthLimit;
     private int gunID = 0;
+    private float wantedLvl = 0;
     private boolean punch = false, shootM4 = false;
-
+    private boolean dead = false;
+    private float x;
+    private float y;
+    
     public Player(float x, float y) {
         bounds = new Rectangle(x, y, Assets.stand.getRegionWidth(), Assets.stand.getRegionHeight());
         velocity = new Vector2(0, 0);
+        health = 200;
+        healthLimit = 200;
+        x = this.x;
+        y = this.y;
+        
     }
 
     public void update(float deltaTime) {
@@ -54,7 +66,18 @@ public class Player {
         }
     }
 
-    public void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch, float deltaTime) {
+         if (dead == true) {
+                frame = Assets.dying
+                        .getKeyFrame(time, false);
+                batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
+            }
+
+            if (Assets.dying.getKeyFrame(time, false) == atlas.findRegion("dying2")) {
+                time = 0;
+            } else {
+                time += deltaTime;
+            }
         if (punch == false && shootM4 == false) {
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runRight
@@ -173,6 +196,32 @@ public class Player {
         return gunID;
     }
 
+    public void wantedKilledPed() {
+        wantedLvl += 25;
+    }
+
+    public void wantedKilledCop() {
+        if (wantedLvl < 300) {
+            wantedLvl += 100;
+        } else if (wantedLvl > 300) {
+            wantedLvl += 25;
+        }
+    }
+
+    public void wantedLvlDecrease() {
+        if (wantedLvl < 300 && wantedLvl > 0) {
+            wantedLvl = wantedLvl - 0.02f;
+        }
+    }
+
+    public void wantedStoleCar() {
+        wantedLvl += 50;
+    }
+
+    public float getWantedLvl() {
+        return wantedLvl;
+    }
+
     public Rectangle getBounds() {
         return bounds;
     }
@@ -180,7 +229,6 @@ public class Player {
     public float getX() {
         return bounds.x;
     }
-
     public float getY() {
         return bounds.y;
     }
@@ -237,6 +285,31 @@ public class Player {
     public void stopShootM4() {
         shootM4 = false;
     }
+
+    public float getHealth() {
+        return health;
+    }
+    
+    public void getShot(){
+        health -= 20;
+        healthLimit -= 10;
+    }
+    
+    public void regenHealth (){
+        if (health < healthLimit){
+            health += 0.05f;
+        }
+    }
+    
+      public boolean isDead (){
+        if (health <= 0){
+            return dead = true;
+        }
+        else{
+            return dead = false;
+        }
+        }
+    
 
     //Ix = max (Ax,Bx)
     //Iy = max (Ay,By)

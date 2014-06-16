@@ -123,6 +123,10 @@ public class GameScreen implements Screen {
         } else {
             playerSpeed = 160;
         }
+        
+          if (p.isDead()) {
+            p = null;
+        } 
 
         //player weapon switching
         if (Gdx.input.isKeyPressed(Input.Keys.Q)) {

@@ -194,6 +194,7 @@ public class GameScreen implements Screen {
                 cop.stop();
                 cop.setLastRot(p);
                 cop.shootPlayer(p);
+                p.isDead();
             }else {
                 cop.move(AIspeed);
             }

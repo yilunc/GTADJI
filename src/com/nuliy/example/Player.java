@@ -302,11 +302,11 @@ public class Player {
     }
     
       public boolean isDead (){
-        if (health == 0){
-            return (dead == true);
+        if (health <= 0){
+            return dead = true;
         }
         else{
-            return dead == false;
+            return dead = false;
         }
         }
     

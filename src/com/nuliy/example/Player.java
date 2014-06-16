@@ -21,7 +21,8 @@ public class Player {
     float time = 0;
     private TextureRegion frame = Assets.stand;
     private int lastRot;
-    private int health;
+    private float health;
+    private float healthLimit;
     private int gunID = 0;
     private float wantedLvl = 0;
     private boolean punch = false, shootM4 = false;
@@ -30,6 +31,7 @@ public class Player {
         bounds = new Rectangle(x, y, Assets.stand.getRegionWidth(), Assets.stand.getRegionHeight());
         velocity = new Vector2(0, 0);
         health = 200;
+        healthLimit = 200;
     }
 
     public void update(float deltaTime) {
@@ -187,18 +189,18 @@ public class Player {
             wantedLvl += 25;
         }
     }
-    
-    public void wantedLvlDecrease(){
-        if (wantedLvl < 300 && wantedLvl > 0){
-            wantedLvl = wantedLvl - 0.25f;
+
+    public void wantedLvlDecrease() {
+        if (wantedLvl < 300 && wantedLvl > 0) {
+            wantedLvl = wantedLvl - 0.01f;
         }
     }
 
     public void wantedStoleCar() {
         wantedLvl += 50;
     }
-    
-    public float getWantedLvl(){
+
+    public float getWantedLvl() {
         return wantedLvl;
     }
 
@@ -235,10 +237,6 @@ public class Player {
         velocity.y = dy;
     }
 
-    public int getHealth() {
-        return health;
-    }
-
     public void setDX(float dx) {
         velocity.x = dx;
     }
@@ -269,6 +267,21 @@ public class Player {
 
     public void stopShootM4() {
         shootM4 = false;
+    }
+
+    public float getHealth() {
+        return health;
+    }
+    
+    public void getShot(){
+        health -= 20;
+        healthLimit -= 10;
+    }
+    
+    public void regenHealth (){
+        if (health < healthLimit){
+            health += 0.05f;
+        }
     }
 
     //Ix = max (Ax,Bx)

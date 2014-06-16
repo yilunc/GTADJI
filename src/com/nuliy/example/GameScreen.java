@@ -45,6 +45,7 @@ public class GameScreen implements Screen {
     private Pedestrian[] Peds;
     private DeadPed[] deadPeds;
     private Police[] police;
+    private Scoreboard playerScore;
     private MapObjects objects;
 
     private int camx = 0;
@@ -79,6 +80,7 @@ public class GameScreen implements Screen {
         healthbar = new Texture(Gdx.files.internal("healthbar.png"));
         HUDfist = new Texture(Gdx.files.internal("fist.png"));
         HUDm4 = new Texture(Gdx.files.internal("m4.png"));
+        playerScore = new Scoreboard();
         MapProperties prop = map.getProperties();
 
         mapWidth = prop.get("width", Integer.class);
@@ -255,6 +257,7 @@ public class GameScreen implements Screen {
                     numDeadPeds = (numDeadPeds + 1) % (ogNumDeadPeds);
                     deadPeds[numDeadPeds] = new DeadPed(Peds[i].getX(), Peds[i].getY(), Peds[i].getLastRot(), Peds[i].getColor());
                     p.wantedKilledPed();
+                    playerScore.addScoreKilledPed(p);
                     Peds[i] = null;
                 }
             }
@@ -345,13 +348,17 @@ public class GameScreen implements Screen {
 
         batch.begin();
 
-        font.draw(batch, "Health: " + p.getHealth() / 2, 690, 520);
-        if (p.getGunID() == 0) {
-            batch.draw(HUDfist, 725, 525, 50, 50);
-        } else if (p.getGunID() == 1) {
-            batch.draw(HUDm4, 675, 525, 100, 50);
+        font.draw(batch, "Health: " + p.getHealth() / 2, 685, 520);
+        font.draw(batch, "Score: " + playerScore.returnScore(), 685, 500);
+        font.draw(batch, "Multiplier: x" + (int) ((Math.ceil(p.getWantedLvl()/100)) + 1), 685,  480);
+        if (p.getWantedLvl() >= 100 ){
+            font.draw(batch, "Wanted: " + (int) (Math.ceil((int) p.getWantedLvl()/100)), 685, 460);
         }
-
+        if (p.getGunID() == 0) {
+            batch.draw(HUDfist, 712, 533, 50, 50);
+        } else if (p.getGunID() == 1) {
+            batch.draw(HUDm4, 687, 530, 100, 50);
+        }
         batch.end();
     }
 

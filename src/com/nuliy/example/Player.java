@@ -74,6 +74,8 @@ public class Player {
             } else {
                 time += deltaTime;
             }
+           if(dead == false)
+           {
         if (punch == false && shootM4 == false) {
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runRight
@@ -144,7 +146,8 @@ public class Player {
             frame = Assets.flashM4;
             batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 0.55f, 2.2f, lastRot, true);
         }
-    }
+}
+}
 
     public void angleRound() {
         if (velocity.x == 0 && velocity.y == 0) {

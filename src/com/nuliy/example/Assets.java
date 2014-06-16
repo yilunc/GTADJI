@@ -32,6 +32,7 @@ public class Assets {
     public static TextureRegion deadBlue;
     public static TextureRegion deadOrange;
     public static TextureRegion deadPurple;
+    public static TextureRegion deadCop;
     public static TextureRegion dead;
     
     public static TextureRegion shootM4;
@@ -54,6 +55,7 @@ public class Assets {
     public static Animation dyingOrange;
     public static Animation dyingPurple;
     public static Animation dyingGrey;
+    public static Animation dyingCop;
      public static Animation dying;
 
     public static Animation playerPunch90;
@@ -344,6 +346,12 @@ public class Assets {
                 (atlas.findRegion("walkingCop - 3.5")),
                 (atlas.findRegion("walkingCop - 3")));
 
+        atlas = new TextureAtlas("DEADCop.pack");
+        deadCop = atlas.findRegion("DyingCop2");
+        dyingCop = new Animation(1 / 2f,
+                (atlas.findRegion("DyingCop1")),
+                (atlas.findRegion("DyingCop2")));
+        
         atlas = new TextureAtlas("punch.pack");
         playerPunch90 = new Animation(1 / 11f,
                 (atlas.findRegion("punch 1 90")),

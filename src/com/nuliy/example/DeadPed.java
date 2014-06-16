@@ -74,7 +74,7 @@ public class DeadPed {
             if (true) {
                 frame = Assets.dyingBlue
                         .getKeyFrame(time, false);
-                batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
+                batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot , true);
             }
 
             if (Assets.dyingBlue.getKeyFrame(time, false) == atlas.findRegion("dyingBlue-2")) {

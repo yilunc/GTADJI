@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -201,9 +202,12 @@ public class GameScreen implements Screen {
 
         //player decrease wanted level if less than three stars wanted
         p.wantedLvlDecrease();
+        
+        //player regen health
+        p.regenHealth();
 
         //player shoot M4
-        //pedestrians getting shot
+        //pedestrians and police getting shot
         if (isClicked == true && p.getGunID() == 1) {
             p.shootM4();
             for (Pedestrian Ped : Peds) {
@@ -211,6 +215,14 @@ public class GameScreen implements Screen {
                 if (Ped != null && Ped.getBounds().contains(touched.x, touched.y)) {
                     Ped.shot();
                     Ped.isDead();
+                    System.out.println("shot");
+                }
+            }
+            for (Police cop : police) {
+                AIscaredtimer = 200;
+                if (cop != null && cop.getBounds().contains(touched.x, touched.y)) {
+                    cop.shot();
+                    cop.isDead();
                     System.out.println("shot");
                 }
             }
@@ -232,9 +244,9 @@ public class GameScreen implements Screen {
                     AI1.handleCollision(rectangle);
                 }
             }
-            for (DeadPed dPeds : deadPeds) {
-                if (dPeds != null && Intersector.overlaps(rectangle, dPeds.getBounds())) {
-                    dPeds.handleCollision(rectangle);
+            for (Police cop: police) {
+                if (cop != null && Intersector.overlaps(rectangle, cop.getBounds())) {
+                    cop.handleCollision(rectangle);
                 }
             }
         }
@@ -248,11 +260,28 @@ public class GameScreen implements Screen {
                 }
             }
         }
+        
+        //cops getting punched
+        for (Police cop : police) {
+            if (cop != null && p.getBounds().overlaps(cop.getBounds())) {
+                p.handleCollision(cop.getBounds());
+                if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                    cop.punched();
+                }
+            }
+        }
 
         //pedestrains get killed once in the water
-        for (Pedestrian Ped : Peds) {
-            if ((Ped.getX() > (mapPixelWidth - 200)) || (Ped.getX() < 230) || (Ped.getY() > (mapPixelHeight - 200)) || Ped.getY() < 200) {
-                Ped = null;
+        for (int i = 0; i < Peds.length; i ++) {
+            if (Peds[i] != null && ((Peds[i].getX() > (mapPixelWidth - 200)) || (Peds[i].getX() < 230) || (Peds[i].getY() > (mapPixelHeight - 200)) || Peds[i].getY() < 200)) {
+                Peds[i] = null;
+            }
+        }
+        
+        //police get killed once in the water
+        for (int i = 0; i < police.length; i ++) {
+            if (police[i] != null && ((police[i].getX() > (mapPixelWidth - 200)) || (police[i].getX() < 230) || (police[i].getY() > (mapPixelHeight - 200)) || police[i].getY() < 200)) {
+                police[i] = null;
             }
         }
 
@@ -261,6 +290,14 @@ public class GameScreen implements Screen {
             for (int i = 0; i < Peds.length; i++) {
                 if (i != h && Peds[h] != null && Peds[i] != null && Peds[h].getBounds().overlaps(Peds[i].getBounds())) {
                     Peds[h].handleCollision(Peds[i].getBounds());
+                }
+            }
+        }
+        //collision between police
+        for (int h = 0; h < police.length; h++) {
+            for (int i = 0; i < police.length; i++) {
+                if (i != h && police[h] != null && police[i] != null && police[h].getBounds().overlaps(police[i].getBounds())) {
+                    police[h].handleCollision(police[i].getBounds());
                 }
             }
         }
@@ -304,38 +341,36 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camPlayer.combined);
         batch.begin();
 
-        //update positions of characters
-        for (DeadPed dPed : deadPeds) {
-            if (dPed != null) {
-                dPed.update(delta);
-            }
-        }
-
         //draw dead people
         for (DeadPed dPed : deadPeds) {
             if (dPed != null) {
                 dPed.drawDead(batch, delta);
             }
         }
+        
         //update positions of characters
         for (Pedestrian Ped : Peds) {
             if (Ped != null) {
                 Ped.update(delta);
             }
         }
+        for (Police cop : police){
+            if (cop != null){
+                cop.update(delta);
+            }
+        }
         //Update position of player
         p.update(delta);
 
-        //draw pedestrians
+        //draw characters
         for (Pedestrian AI1 : Peds) {
             if (AI1 != null) {
                 AI1.draw(batch, AI1.getColor());
             }
         }
-
-        for (Police cop : police) {
-            if (cop.distanceFrom(p) < 200) {
-                cop.shootPlayer(p);
+        for (Police cop : police){
+            if (cop != null){
+                cop.draw(batch, p, delta);
             }
         }
 
@@ -345,12 +380,19 @@ public class GameScreen implements Screen {
                 Peds[i] = new Pedestrian((float) Math.random() * 4000 + 1000, (float) Math.random() * 4000 + 1000, (int) (Math.random() * 6 + 1));
             }
         }
+         //respawn a new cop if they are dead
+        for (int i = 0; i < police.length; i++) {
+            if (police[i] == null) {
+                police[i] = new Police((float) Math.random() * 4000 + 1000, (float) Math.random() * 4000 + 1000);
+            }
+        }
 
         //draw player
         p.draw(batch, delta);
 
         batch.end();
 
+        //HUD Rendering
         batchMiniMap.setProjectionMatrix(camMiniMap.combined);
         miniMapRender.setView(camMiniMap);
         miniMapRender.render();

@@ -179,6 +179,13 @@ public class GameScreen implements Screen {
                 AI1.scared(p, 75 * 2);
             }
         }
+        
+        //kill pedestrians if they move into the water, or off of the map
+        for (Pedestrian Ped : Peds){
+            if ((Ped.getX() > (mapPixelWidth - 200)) || (Ped.getX() < 230) || (Ped.getY() > (mapPixelHeight - 200)) || Ped.getY() < 200){
+                Ped.shot();
+            }
+        }
 
         //player shoot M4
         //pedestrians getting shot

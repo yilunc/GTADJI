@@ -81,7 +81,7 @@ public class Police extends AI {
                 batch.draw(frame, x, y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
             }
 
-            if (Assets.dyingCop.getKeyFrame(time, false) == atlas.findRegion("dyingCop-2")) {
+            if (Assets.dyingCop.getKeyFrame(time, false) == atlas.findRegion("dyingCop2")) {
                 time = 0;
             } else {
                 time += deltaTime;

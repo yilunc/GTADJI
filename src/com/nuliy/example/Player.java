@@ -67,12 +67,12 @@ public class Player {
     public void draw(SpriteBatch batch, float deltaTime) {
         if(dead == true)
         {
-                frame = Assets.dyingGreen
+                frame = Assets.dying
                         .getKeyFrame(time, false);
                 batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
             }
 
-            if (Assets.dyingGreen.getKeyFrame(time, false) == atlas.findRegion("dyingGreen-2")) {
+            if (Assets.dyingGreen.getKeyFrame(time, false) == atlas.findRegion("dying2")) {
                 time = 0;
             } else {
                 time += deltaTime;

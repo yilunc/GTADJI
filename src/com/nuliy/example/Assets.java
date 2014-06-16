@@ -5,6 +5,8 @@ package com.nuliy.example;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -33,6 +35,7 @@ public class Assets {
     public static TextureRegion shootM4;
     public static TextureRegion flashM4;
     public static TextureRegion healthbar;
+    public static Texture car;
 
     public static TextureRegion standPolice;
 

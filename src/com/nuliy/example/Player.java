@@ -28,16 +28,12 @@ public class Player {
     private float wantedLvl = 0;
     private boolean punch = false, shootM4 = false;
     private boolean dead = false;
-    private float x;
-    private float y;
     
     public Player(float x, float y) {
         bounds = new Rectangle(x, y, Assets.stand.getRegionWidth(), Assets.stand.getRegionHeight());
         velocity = new Vector2(0, 0);
         health = 200;
         healthLimit = 200;
-        x = this.x;
-        y = this.y;
         
     }
 
@@ -70,7 +66,7 @@ public class Player {
          if (dead == true) {
                 frame = Assets.dying
                         .getKeyFrame(time, false);
-                batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
+                batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
             }
 
             if (Assets.dying.getKeyFrame(time, false) == atlas.findRegion("dying2")) {

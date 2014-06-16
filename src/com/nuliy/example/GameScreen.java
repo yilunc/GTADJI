@@ -210,6 +210,11 @@ public class GameScreen implements Screen {
                     AI1.handleCollision(rectangle);
                 }
             }
+            for (DeadPed dPeds: deadPeds){
+                if (dPeds != null && Intersector.overlaps(rectangle, dPeds.getBounds())) {
+                    dPeds.handleCollision(rectangle);
+                }
+            }
         }
 
         //pedestrians getting punched
@@ -268,19 +273,26 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camPlayer.combined);
         batch.begin();
 
+        //update positions of characters
+        for (DeadPed dPed : deadPeds) {
+            if (dPed != null) {
+                dPed.update(delta);
+            }
+        }
+
         //draw dead people
         for (DeadPed dPed : deadPeds) {
             if (dPed != null) {
                 dPed.drawDead(batch, delta);
             }
         }
-
         //update positions of characters
         for (Pedestrian Ped : Peds) {
             if (Ped != null) {
                 Ped.update(delta);
             }
         }
+        //Update position of player
         p.update(delta);
 
         //draw pedestrians
@@ -321,18 +333,17 @@ public class GameScreen implements Screen {
         batch.begin();
 
         font.draw(batch, "Health: " + p.getHealth() / 2, 690, 520);
-        if (p.getGunID() == 0){
+        if (p.getGunID() == 0) {
             batch.draw(HUDfist, 725, 525, 50, 50);
-        }else if (p.getGunID() == 1){
+        } else if (p.getGunID() == 1) {
             batch.draw(HUDm4, 675, 525, 100, 50);
         }
-        
+
         batch.end();
     }
 
     @Override
-    public void resize(int width, int height
-    ) {
+    public void resize(int width, int height) {
 
     }
 

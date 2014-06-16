@@ -24,7 +24,7 @@ public class Player {
     private int lastRot;
     private float health, healthLimit;
     private int gunID = 0;
-    private int wantedLvl = 0;
+    private float wantedLvl = 0;
     private boolean punch = false, shootM4 = false;
     private boolean dead = false;
     float x;
@@ -206,13 +206,19 @@ public class Player {
             wantedLvl += 25;
         }
     }
+    
+    public void wantedLvlDecrease(){
+        if (wantedLvl < 300 && wantedLvl > 0){
+            wantedLvl = wantedLvl - 0.25f;
+        }
+    }
 
     public void wantedStoleCar() {
         wantedLvl += 50;
     }
     
-    public int getWantedLvl(){
-        return wantedLvl =300;
+    public float getWantedLvl(){
+        return wantedLvl;
     }
 
     public Rectangle getBounds() {

@@ -42,10 +42,9 @@ public class GameScreen implements Screen {
     private Vector3 mouse = new Vector3(0, 0, 0);
     private Vector3 exactMove = new Vector3(0, 0, 0);
     private Player p;
-    private Car car;
     private Pedestrian[] Peds;
-    private Police [] Cop;
     private DeadPed[] deadPeds;
+    private Police[] police;
     private MapObjects objects;
 
     private int camx = 0;
@@ -94,7 +93,7 @@ public class GameScreen implements Screen {
 
         Peds = new Pedestrian[200];
         deadPeds = new DeadPed[numDeadPeds];
-        Cop = new Police[10];
+        police = new Police[10];
     }
 
     @Override
@@ -137,14 +136,6 @@ public class GameScreen implements Screen {
             p.rotateWeps();
             isQDown = false;
         }
-        
-        for (Police cop : Cop){
-            if(cop.distanceFrom(p) < 200){
-                cop.shootPlayer(p);
-            }
-        }
-        
-
 
         //player movements
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
@@ -191,14 +182,8 @@ public class GameScreen implements Screen {
             }
         }
         
-        //kill pedestrians if they move into the water, or off of the map
-        for (Pedestrian Ped : Peds){
-            if ((Ped.getX() > (mapPixelWidth - 200)) || (Ped.getX() < 230) || (Ped.getY() > (mapPixelHeight - 200)) || Ped.getY() < 200){
-                Ped.shot();
-            }
-        }
-        
-        
+        //player decrease wanted level if less than three stars wanted
+        p.wantedLvlDecrease();
 
         //player shoot M4
         //pedestrians getting shot
@@ -230,6 +215,11 @@ public class GameScreen implements Screen {
                     AI1.handleCollision(rectangle);
                 }
             }
+            for (DeadPed dPeds: deadPeds){
+                if (dPeds != null && Intersector.overlaps(rectangle, dPeds.getBounds())) {
+                    dPeds.handleCollision(rectangle);
+                }
+            }
         }
 
         //pedestrians getting punched
@@ -239,6 +229,13 @@ public class GameScreen implements Screen {
                 if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                     Ped.punched();
                 }
+            }
+        }
+        
+        //pedestrains get killed once in the water
+        for (Pedestrian Ped : Peds){
+            if ((Ped.getX() > (mapPixelWidth - 200)) || (Ped.getX() < 230) || (Ped.getY() > (mapPixelHeight - 200)) || Ped.getY() < 200){
+                Ped = null;
             }
         }
 
@@ -257,6 +254,7 @@ public class GameScreen implements Screen {
                 if (Peds[i].isDead() == true) {
                     numDeadPeds = (numDeadPeds + 1) % (ogNumDeadPeds);
                     deadPeds[numDeadPeds] = new DeadPed(Peds[i].getX(), Peds[i].getY(), Peds[i].getLastRot(), Peds[i].getColor());
+                    p.wantedKilledPed();
                     Peds[i] = null;
                 }
             }
@@ -288,22 +286,27 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camPlayer.combined);
         batch.begin();
 
+        //update positions of characters
+        for (DeadPed dPed : deadPeds) {
+            if (dPed != null) {
+                dPed.update(delta);
+            }
+        }
+
         //draw dead people
         for (DeadPed dPed : deadPeds) {
             if (dPed != null) {
                 dPed.drawDead(batch, delta);
             }
         }
-
         //update positions of characters
         for (Pedestrian Ped : Peds) {
             if (Ped != null) {
                 Ped.update(delta);
             }
         }
+        //Update position of player
         p.update(delta);
-        car.updateCar(delta);
-        
 
         //draw pedestrians
         for (Pedestrian AI1 : Peds) {
@@ -320,7 +323,7 @@ public class GameScreen implements Screen {
         }
 
         //draw player
-        p.draw(batch, delta);
+        p.draw(batch);
 
         batch.end();
 
@@ -343,22 +346,17 @@ public class GameScreen implements Screen {
         batch.begin();
 
         font.draw(batch, "Health: " + p.getHealth() / 2, 690, 520);
-        if (p.getGunID() == 0){
+        if (p.getGunID() == 0) {
             batch.draw(HUDfist, 725, 525, 50, 50);
-        }else if (p.getGunID() == 1){
+        } else if (p.getGunID() == 1) {
             batch.draw(HUDm4, 675, 525, 100, 50);
         }
-        if((int) Math.ceil(p.getWantedLvl()/100) >= 1){
-            font.draw(batch, "Wanted Level: " + (int) Math.ceil(p.getWantedLvl()/100) , 640, 480);
-        }
-        
+
         batch.end();
-        car.render(camPlayer.combined);
     }
 
     @Override
-    public void resize(int width, int height
-    ) {
+    public void resize(int width, int height) {
 
     }
 
@@ -379,8 +377,7 @@ public class GameScreen implements Screen {
         Assets.load();
 
         p = new Player(200.0f, 300.0f);
-        car = new Car(200f, 300f);
-        
+
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] == null) {
                 Peds[i] = new Pedestrian((float) Math.random() * 4000 + 1000, (float) Math.random() * 4000 + 1000, (int) (Math.random() * 6 + 1));

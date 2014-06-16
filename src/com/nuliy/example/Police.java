@@ -56,4 +56,54 @@ public class Police extends AI {
     public void shot() {
         health -= 25;
     }
-}
+    
+        public void draw(SpriteBatch batch) {
+            frame = Assets.standCop;
+            if (velocity.x > 0 && velocity.y == 0) {
+                frame = Assets.runCop
+                        .getKeyFrame(time, true);
+                batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 90, true);
+                lastRot = 90;
+            } else if (velocity.x < 0 && velocity.y == 0) {
+                frame = Assets.runCop
+                        .getKeyFrame(time, true);
+                batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 270, true);
+                lastRot = 270;
+            } else if (velocity.x == 0 && velocity.y > 0) {
+                frame = Assets.runCop
+                        .getKeyFrame(time, true);
+                batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 180, true);
+                lastRot = 180;
+            } else if (velocity.x > 0 && velocity.y > 0 && velocity.x == velocity.y) {
+                frame = Assets.runCop
+                        .getKeyFrame(time, true);
+                batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 135, true);
+                lastRot = 135;
+            } else if (velocity.x < 0 && velocity.y > 0 && -velocity.x == velocity.y) {
+                frame = Assets.runCop
+                        .getKeyFrame(time, true);
+                batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 225, true);
+                lastRot = 225;
+            } else if (velocity.x < 0 && velocity.y < 0 && velocity.x == velocity.y) {
+                frame = Assets.runCop
+                        .getKeyFrame(time, true);
+                batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 315, true);
+                lastRot = 315;
+            } else if (velocity.x == 0 && velocity.y < 0) {
+                frame = Assets.runCop
+                        .getKeyFrame(time, true);
+                batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 0, true);
+                lastRot = 0;
+            } else if (velocity.x > 0 && velocity.y < 0 && velocity.x == -velocity.y) {
+                frame = Assets.runCop
+                        .getKeyFrame(time, true);
+                batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 45, true);
+                lastRot = 45;
+            } else {
+                frame = Assets.standCop;
+                batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1, 1, 135, true);
+                lastRot = 135;
+            }
+        }
+        }
+

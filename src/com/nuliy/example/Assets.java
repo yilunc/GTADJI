@@ -165,7 +165,7 @@ public class Assets {
         atlas = new TextureAtlas("DEAD.pack");
         dead = atlas.findRegion("Dying2");
         dying = new Animation(1 / 2f,
-                (atlas.findRegion("Dying1")),
+                (atlas.findRegion("Dying2")),
                 (atlas.findRegion("Dying2")));
 
         atlas = new TextureAtlas("PEDRed.pack");

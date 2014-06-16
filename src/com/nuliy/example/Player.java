@@ -69,7 +69,7 @@ public class Player {
                 batch.draw(frame, bounds.x, bounds.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
             }
 
-            if (Assets.dying.getKeyFrame(time, false) == atlas.findRegion("dying")) {
+            if (Assets.dying.getKeyFrame(time, false) == atlas.findRegion("dying2")) {
                 time = 0;
             } else {
                 time += deltaTime;

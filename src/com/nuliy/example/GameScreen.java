@@ -183,7 +183,7 @@ public class GameScreen implements Screen {
                 AI1.scared(p, 75 * 2);
             }
         }
-        
+
         //player decrease wanted level if less than three stars wanted
         p.wantedLvlDecrease();
 
@@ -217,7 +217,7 @@ public class GameScreen implements Screen {
                     AI1.handleCollision(rectangle);
                 }
             }
-            for (DeadPed dPeds: deadPeds){
+            for (DeadPed dPeds : deadPeds) {
                 if (dPeds != null && Intersector.overlaps(rectangle, dPeds.getBounds())) {
                     dPeds.handleCollision(rectangle);
                 }
@@ -233,10 +233,10 @@ public class GameScreen implements Screen {
                 }
             }
         }
-        
+
         //pedestrains get killed once in the water
-        for (Pedestrian Ped : Peds){
-            if ((Ped.getX() > (mapPixelWidth - 200)) || (Ped.getX() < 230) || (Ped.getY() > (mapPixelHeight - 200)) || Ped.getY() < 200){
+        for (Pedestrian Ped : Peds) {
+            if ((Ped.getX() > (mapPixelWidth - 200)) || (Ped.getX() < 230) || (Ped.getY() > (mapPixelHeight - 200)) || Ped.getY() < 200) {
                 Ped = null;
             }
         }
@@ -318,6 +318,12 @@ public class GameScreen implements Screen {
             }
         }
 
+        for (Police cop : police) {
+            if (cop.distanceFrom(p) < 200) {
+                cop.shootPlayer(p);
+            }
+        }
+
         //respawn a new pedestrian if they are dead
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] == null) {
@@ -348,11 +354,11 @@ public class GameScreen implements Screen {
 
         batch.begin();
 
-        font.draw(batch, "Health: " + p.getHealth() / 2, 685, 520);
+        font.draw(batch, "Health: " + (int) p.getHealth() / 2, 685, 520);
         font.draw(batch, "Score: " + playerScore.returnScore(), 685, 500);
-        font.draw(batch, "Multiplier: x" + (int) ((Math.ceil(p.getWantedLvl()/100)) + 1), 685,  480);
-        if (p.getWantedLvl() >= 100 ){
-            font.draw(batch, "Wanted: " + (int) (Math.ceil((int) p.getWantedLvl()/100)), 685, 460);
+        font.draw(batch, "Multiplier: x" + (int) ((Math.ceil(p.getWantedLvl() / 100)) + 1), 685, 480);
+        if (p.getWantedLvl() >= 100) {
+            font.draw(batch, "Wanted: " + (int) (Math.ceil((int) p.getWantedLvl() / 100)), 685, 460);
         }
         if (p.getGunID() == 0) {
             batch.draw(HUDfist, 712, 533, 50, 50);
@@ -388,6 +394,12 @@ public class GameScreen implements Screen {
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] == null) {
                 Peds[i] = new Pedestrian((float) Math.random() * 4000 + 1000, (float) Math.random() * 4000 + 1000, (int) (Math.random() * 6 + 1));
+            }
+        }
+
+        for (int i = 0; i < police.length; i++) {
+            if (police[i] == null) {
+                police[i] = new Police((float) Math.random() * 4000 + 1000, (float) Math.random() * 4000 + 1000);
             }
         }
     }

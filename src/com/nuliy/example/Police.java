@@ -21,6 +21,7 @@ public class Police extends AI {
     private float time = 0;
     private int health;
     private int AIspeed = 120;
+    private int shotNum;
     private boolean isDead = false;
 
     public Police(float x, float y) {
@@ -55,6 +56,14 @@ public class Police extends AI {
 
     public void shot() {
         health -= 25;
+    }
+    
+    public void shootPlayer(Player p){
+        shotNum = (int) (Math.random() * 11);
+        
+        if (shotNum == 4){
+            p.getShot();
+        }
     }
 
     public void draw(SpriteBatch batch) {

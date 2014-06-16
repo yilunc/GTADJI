@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import static com.nuliy.example.Assets.atlas;
 
 /**
  *
@@ -22,10 +23,14 @@ public class Police extends AI {
     private int health;
     private int AIspeed = 120;
     private boolean isDead = false;
+    private float x;
+    private float y;
 
     public Police(float x, float y) {
         super(x, y);
         health = 200;
+        x = this.x;
+        y = this.y;
     }
 
     public void chase(Player p) {
@@ -66,7 +71,20 @@ public class Police extends AI {
         health -= 25;
     }
     
-        public void draw(SpriteBatch batch) {
+        public void draw(SpriteBatch batch, float deltaTime) {
+            
+            if(isDead == true)
+            {
+                frame = Assets.dyingGreen
+                        .getKeyFrame(time, false);
+                batch.draw(frame, x, y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
+            }
+
+            if (Assets.dyingGreen.getKeyFrame(time, false) == atlas.findRegion("dyingGreen-2")) {
+                time = 0;
+            } else {
+                time += deltaTime;
+            }
             frame = Assets.standCop;
             if (velocity.x > 0 && velocity.y == 0) {
                 frame = Assets.runCop

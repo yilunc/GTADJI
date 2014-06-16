@@ -32,6 +32,7 @@ public class Assets {
     public static TextureRegion deadBlue;
     public static TextureRegion deadOrange;
     public static TextureRegion deadPurple;
+    public static TextureRegion deadCop;
     public static TextureRegion dead;
     
     public static TextureRegion shootM4;
@@ -56,6 +57,7 @@ public class Assets {
     public static Animation dyingOrange;
     public static Animation dyingPurple;
     public static Animation dyingGrey;
+    public static Animation dyingCop;
      public static Animation dying;
 
     public static Animation policeM4;

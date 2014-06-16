@@ -22,6 +22,7 @@ public class Police extends AI {
     private float time = 0;
     private int health;
     private int AIspeed = 120;
+    private int shotNum;
     private boolean isDead = false;
     private float x;
     private float y;

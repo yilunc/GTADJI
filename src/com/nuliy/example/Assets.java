@@ -32,6 +32,7 @@ public class Assets {
     public static TextureRegion deadPurple;
     public static TextureRegion shootM4;
     public static TextureRegion flashM4;
+    public static TextureRegion healthbar;
 
     public static Animation runRight;
     public static Animation sprintRight;
@@ -368,6 +369,9 @@ public class Assets {
         atlas = new TextureAtlas("M4Gun.pack");
         shootM4 = atlas.findRegion("M4Gun");
         flashM4 = atlas.findRegion("M4GunFlash");
+        
+        atlas = new TextureAtlas("healthbar.atlas");
+        healthbar = atlas.findRegion("healthbar");
     }
 
 }

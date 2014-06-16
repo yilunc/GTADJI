@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -23,6 +25,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
 import com.badlogic.gdx.math.Vector3;
+import static javax.swing.Spring.height;
+import static javax.swing.Spring.width;
 
 public class GameScreen implements Screen {
 
@@ -31,6 +35,9 @@ public class GameScreen implements Screen {
     private OrthographicCamera camPlayer, camMiniMap, UI;
 
     private Texture playermarker;
+    private Texture healthbar;
+    private Texture HUDfist;
+    private Texture HUDm4;
     private Vector3 touched = new Vector3(0, 0, 0);
     private Vector3 mouse = new Vector3(0, 0, 0);
     private Vector3 exactMove = new Vector3(0, 0, 0);
@@ -52,6 +59,7 @@ public class GameScreen implements Screen {
     private int mapWidth, mapHeight, tilePixelWidth, tilePixelHeight;
     private boolean isClicked, isHeldDown, isQDown, isQHeld;
     private BitmapFont font = new BitmapFont();
+    private ShapeRenderer shaperenderer = new ShapeRenderer();
 
     int mapPixelWidth, mapPixelHeight;
 
@@ -67,6 +75,9 @@ public class GameScreen implements Screen {
         miniMap = new TmxMapLoader().load("GTA MAP.tmx");
         miniMapRender = new OrthogonalTiledMapRenderer(map);
         playermarker = new Texture(Gdx.files.internal("playermarkercircle.png"));
+        healthbar = new Texture(Gdx.files.internal("healthbar.png"));
+        HUDfist = new Texture(Gdx.files.internal("fist.png"));
+        HUDm4 = new Texture(Gdx.files.internal("m4.png"));
         MapProperties prop = map.getProperties();
 
         mapWidth = prop.get("width", Integer.class);
@@ -76,6 +87,8 @@ public class GameScreen implements Screen {
 
         mapPixelWidth = (mapWidth - 2) * tilePixelWidth - 16;
         mapPixelHeight = (mapHeight - 2) * tilePixelHeight;
+
+        font.scale(0.4f);
 
         Peds = new Pedestrian[200];
         deadPeds = new DeadPed[numDeadPeds];
@@ -198,7 +211,7 @@ public class GameScreen implements Screen {
                 }
             }
         }
-        
+
         //pedestrians getting punched
         for (Pedestrian Ped : Peds) {
             if (Ped != null && p.getBounds().overlaps(Ped.getBounds())) {
@@ -276,7 +289,7 @@ public class GameScreen implements Screen {
                 AI1.draw(batch, AI1.getColor());
             }
         }
-        
+
         //respawn a new pedestrian if they are dead
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] == null) {
@@ -288,26 +301,31 @@ public class GameScreen implements Screen {
         p.draw(batch);
 
         batch.end();
-        
+
         batchMiniMap.setProjectionMatrix(camMiniMap.combined);
         miniMapRender.setView(camMiniMap);
         miniMapRender.render();
         batchMiniMap.begin();
-        
-        batchMiniMap.draw(playermarker, p.getX() - (playermarker.getWidth()/2), p.getY() - (playermarker.getHeight()/2));
-        for (Pedestrian AI : Peds){
-            if (AI != null){
+
+        batchMiniMap.draw(playermarker, p.getX() - (playermarker.getWidth() / 2), p.getY() - (playermarker.getHeight() / 2));
+        for (Pedestrian AI : Peds) {
+            if (AI != null) {
                 AI.draw(batchMiniMap, 1);
             }
         }
-        
+
         batchMiniMap.end();
-        
+
         batch.setProjectionMatrix(UI.combined);
+
         batch.begin();
-        
-        font.draw(batch, "Health", 0, 600);
-        
+
+        font.draw(batch, "Health: " + p.getHealth() / 2, 690, 520);
+        if (p.getGunID() == 0){
+            batch.draw(HUDfist, 725, 525, 50, 50);
+        }else if (p.getGunID() == 1){
+            batch.draw(HUDm4, 675, 525, 100, 50);
+        }
         
         batch.end();
     }
@@ -326,11 +344,11 @@ public class GameScreen implements Screen {
         UI.setToOrtho(false, 800, 600);
         camMiniMap = new OrthographicCamera(800, 600);
         camMiniMap.zoom = 30f;
-        
+
         batch = new SpriteBatch();
         batchMiniMap = new SpriteBatch();
-        
-        camMiniMap.position.set(-6500, -3500, 0);
+
+        camMiniMap.position.set(12000, 9000, 0);
 
         Assets.load();
 

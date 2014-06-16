@@ -181,6 +181,9 @@ public class GameScreen implements Screen {
                 AI1.scared(p, 75 * 2);
             }
         }
+        
+        //player decrease wanted level if less than three stars wanted
+        p.wantedLvlDecrease();
 
         //player shoot M4
         //pedestrians getting shot
@@ -228,6 +231,13 @@ public class GameScreen implements Screen {
                 }
             }
         }
+        
+        //pedestrains get killed once in the water
+        for (Pedestrian Ped : Peds){
+            if ((Ped.getX() > (mapPixelWidth - 200)) || (Ped.getX() < 230) || (Ped.getY() > (mapPixelHeight - 200)) || Ped.getY() < 200){
+                Ped = null;
+            }
+        }
 
         //collision between pedestrians
         for (int h = 0; h < Peds.length; h++) {
@@ -244,6 +254,7 @@ public class GameScreen implements Screen {
                 if (Peds[i].isDead() == true) {
                     numDeadPeds = (numDeadPeds + 1) % (ogNumDeadPeds);
                     deadPeds[numDeadPeds] = new DeadPed(Peds[i].getX(), Peds[i].getY(), Peds[i].getLastRot(), Peds[i].getColor());
+                    p.wantedKilledPed();
                     Peds[i] = null;
                 }
             }

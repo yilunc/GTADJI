@@ -42,6 +42,7 @@ public class GameScreen implements Screen {
     private Vector3 mouse = new Vector3(0, 0, 0);
     private Vector3 exactMove = new Vector3(0, 0, 0);
     private Player p;
+    private Car car;
     private Pedestrian[] Peds;
     private DeadPed[] deadPeds;
     private MapObjects objects;
@@ -289,6 +290,8 @@ public class GameScreen implements Screen {
             }
         }
         p.update(delta);
+        car.updateCar(delta);
+        
 
         //draw pedestrians
         for (Pedestrian AI1 : Peds) {
@@ -360,7 +363,8 @@ public class GameScreen implements Screen {
         Assets.load();
 
         p = new Player(200.0f, 300.0f);
-
+        car = new Car(200f, 300f);
+        
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] == null) {
                 Peds[i] = new Pedestrian((float) Math.random() * 4000 + 1000, (float) Math.random() * 4000 + 1000, (int) (Math.random() * 6 + 1));

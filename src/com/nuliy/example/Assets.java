@@ -5,6 +5,8 @@ package com.nuliy.example;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -33,6 +35,7 @@ public class Assets {
     public static TextureRegion shootM4;
     public static TextureRegion flashM4;
     public static TextureRegion healthbar;
+    public static Texture car;
 
     public static Animation runRight;
     public static Animation sprintRight;
@@ -56,6 +59,9 @@ public class Assets {
     public static Animation playerPunch360;
 
     public static void load() {
+        
+        car = new Texture(Gdx.files.internal("HoverCar.jpg"));
+        
         atlas = new TextureAtlas("walking.pack");
         stand = atlas.findRegion("walking - 3");
         runRight = new Animation(1 / 10f,
@@ -370,6 +376,7 @@ public class Assets {
         shootM4 = atlas.findRegion("M4Gun");
         flashM4 = atlas.findRegion("M4GunFlash");
         
+      
         atlas = new TextureAtlas("healthbar.atlas");
         healthbar = atlas.findRegion("healthbar");
     }

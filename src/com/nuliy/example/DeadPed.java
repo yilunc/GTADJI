@@ -42,6 +42,19 @@ public class DeadPed {
     }
 
     public void drawDead(SpriteBatch batch, float deltaTime) {
+        if (type == 0) {
+            if (true) {
+                frame = Assets.dyingCop
+                        .getKeyFrame(time, false);
+                batch.draw(frame, this.x, this.y, frame.getRegionWidth() / 2, frame.getRegionHeight() / 2, frame.getRegionWidth(), frame.getRegionHeight(), 1.4f, 0.65f, lastRot, true);
+            }
+
+            if (Assets.dyingCop.getKeyFrame(time, false) == atlas.findRegion("dyingGreen-2")) {
+                time = 0;
+            } else {
+                time += deltaTime;
+            }
+        }
         if (type == 1) {
             if (true) {
                 frame = Assets.dyingGreen

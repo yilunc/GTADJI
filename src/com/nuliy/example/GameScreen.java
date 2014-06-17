@@ -9,6 +9,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -38,6 +39,8 @@ public class GameScreen implements Screen {
     private Texture healthbar;
     private Texture HUDfist;
     private Texture HUDm4;
+    private Texture HUDwasted;
+    private Texture splash;
     private Vector3 touched = new Vector3(0, 0, 0);
     private Vector3 mouse = new Vector3(0, 0, 0);
     private Vector3 exactMove = new Vector3(0, 0, 0);
@@ -52,6 +55,7 @@ public class GameScreen implements Screen {
     private int camy = 0;
     private float x;
     private float y;
+    private int multiplier;
     private int playerSpeed = 160;
     private int AIspeed = 75;
     private int AIscaredtimer = 0;
@@ -80,6 +84,8 @@ public class GameScreen implements Screen {
         healthbar = new Texture(Gdx.files.internal("healthbar.png"));
         HUDfist = new Texture(Gdx.files.internal("fist.png"));
         HUDm4 = new Texture(Gdx.files.internal("m4.png"));
+        HUDwasted = new Texture(Gdx.files.internal("wasted.png"));
+        splash = new Texture("splash.png");
         playerScore = new Scoreboard();
         MapProperties prop = map.getProperties();
 
@@ -183,26 +189,26 @@ public class GameScreen implements Screen {
                 AI1.scared(p, 75 * 2);
             }
         }
-        
+
         //move all police
-        for (Police cop : police){
-            if (p.getWantedLvl() >= 100 && cop.distanceFrom(p) > 200){
+        for (Police cop : police) {
+            if (p.getWantedLvl() >= 100 && cop.distanceFrom(p) > 200) {
                 cop.setLastRot(p);
                 cop.chase(p);
-            }else if (p.getWantedLvl() >= 100 && cop.distanceFrom(p) < 200){
-                        System.out.println("shot");
+            } else if (p.getWantedLvl() >= 100 && cop.distanceFrom(p) < 200) {
+
                 cop.stop();
                 cop.setLastRot(p);
-                cop.shootPlayer(p);
+                cop.shootPlayer(p, batch);
                 p.isDead();
-            }else {
+            } else {
                 cop.move(AIspeed);
             }
         }
 
         //player decrease wanted level if less than three stars wanted
         p.wantedLvlDecrease();
-        
+
         //player regen health
         p.regenHealth();
 
@@ -215,7 +221,6 @@ public class GameScreen implements Screen {
                 if (Ped != null && Ped.getBounds().contains(touched.x, touched.y)) {
                     Ped.shot();
                     Ped.isDead();
-                    System.out.println("shot");
                 }
             }
             for (Police cop : police) {
@@ -223,7 +228,6 @@ public class GameScreen implements Screen {
                 if (cop != null && cop.getBounds().contains(touched.x, touched.y)) {
                     cop.shot();
                     cop.isDead();
-                    System.out.println("shot");
                 }
             }
             isClicked = false;
@@ -244,7 +248,7 @@ public class GameScreen implements Screen {
                     AI1.handleCollision(rectangle);
                 }
             }
-            for (Police cop: police) {
+            for (Police cop : police) {
                 if (cop != null && Intersector.overlaps(rectangle, cop.getBounds())) {
                     cop.handleCollision(rectangle);
                 }
@@ -255,31 +259,31 @@ public class GameScreen implements Screen {
         for (Pedestrian Ped : Peds) {
             if (Ped != null && p.getBounds().overlaps(Ped.getBounds())) {
                 p.handleCollision(Ped.getBounds());
-                if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && p.getGunID() == 0) {
                     Ped.punched();
                 }
             }
         }
-        
+
         //cops getting punched
         for (Police cop : police) {
             if (cop != null && p.getBounds().overlaps(cop.getBounds())) {
                 p.handleCollision(cop.getBounds());
-                if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && p.getGunID() == 0) {
                     cop.punched();
                 }
             }
         }
 
         //pedestrains get killed once in the water
-        for (int i = 0; i < Peds.length; i ++) {
+        for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] != null && ((Peds[i].getX() > (mapPixelWidth - 200)) || (Peds[i].getX() < 230) || (Peds[i].getY() > (mapPixelHeight - 200)) || Peds[i].getY() < 200)) {
                 Peds[i] = null;
             }
         }
-        
+
         //police get killed once in the water
-        for (int i = 0; i < police.length; i ++) {
+        for (int i = 0; i < police.length; i++) {
             if (police[i] != null && ((police[i].getX() > (mapPixelWidth - 200)) || (police[i].getX() < 230) || (police[i].getY() > (mapPixelHeight - 200)) || police[i].getY() < 200)) {
                 police[i] = null;
             }
@@ -311,6 +315,19 @@ public class GameScreen implements Screen {
                     p.wantedKilledPed();
                     playerScore.addScoreKilledPed(p);
                     Peds[i] = null;
+                }
+            }
+        }
+
+        //police dying
+        for (int i = 0; i < police.length; i++) {
+            if (police[i] != null) {
+                if (police[i].isDead() == true) {
+                    numDeadPeds = (numDeadPeds + 1) % (ogNumDeadPeds);
+                    deadPeds[numDeadPeds] = new DeadPed(police[i].getX(), police[i].getY(), police[i].getLastRot(), 0);
+                    p.wantedKilledCop();
+                    playerScore.addScoreKilledPed(p);
+                    police[i] = null;
                 }
             }
         }
@@ -347,20 +364,22 @@ public class GameScreen implements Screen {
                 dPed.drawDead(batch, delta);
             }
         }
-        
+
         //update positions of characters
         for (Pedestrian Ped : Peds) {
             if (Ped != null) {
                 Ped.update(delta);
             }
         }
-        for (Police cop : police){
-            if (cop != null){
+        for (Police cop : police) {
+            if (cop != null) {
                 cop.update(delta);
             }
         }
         //Update position of player
-        p.update(delta);
+        if (!p.isDead()) {
+            p.update(delta);
+        }
 
         //draw characters
         for (Pedestrian AI1 : Peds) {
@@ -368,8 +387,8 @@ public class GameScreen implements Screen {
                 AI1.draw(batch, AI1.getColor());
             }
         }
-        for (Police cop : police){
-            if (cop != null){
+        for (Police cop : police) {
+            if (cop != null) {
                 cop.draw(batch, p, delta);
             }
         }
@@ -380,7 +399,7 @@ public class GameScreen implements Screen {
                 Peds[i] = new Pedestrian((float) Math.random() * 4000 + 1000, (float) Math.random() * 4000 + 1000, (int) (Math.random() * 6 + 1));
             }
         }
-         //respawn a new cop if they are dead
+        //respawn a new cop if they are dead
         for (int i = 0; i < police.length; i++) {
             if (police[i] == null) {
                 police[i] = new Police((float) Math.random() * 4000 + 1000, (float) Math.random() * 4000 + 1000);
@@ -388,41 +407,71 @@ public class GameScreen implements Screen {
         }
 
         //draw player
-        p.draw(batch, delta);
+        if (!p.isDead()) {
+            p.draw(batch, delta);
+        }
 
         batch.end();
 
-        //HUD Rendering
-        batchMiniMap.setProjectionMatrix(camMiniMap.combined);
-        miniMapRender.setView(camMiniMap);
-        miniMapRender.render();
-        batchMiniMap.begin();
+        if (!p.isDead()) {
+            //HUD Rendering
+            batchMiniMap.setProjectionMatrix(camMiniMap.combined);
+            miniMapRender.setView(camMiniMap);
+            miniMapRender.render();
+            batchMiniMap.begin();
 
-        batchMiniMap.draw(playermarker, p.getX() - (playermarker.getWidth() / 2), p.getY() - (playermarker.getHeight() / 2));
-        for (Pedestrian AI : Peds) {
-            if (AI != null) {
-                AI.draw(batchMiniMap, 1);
+            batchMiniMap.draw(playermarker, p.getX() - (playermarker.getWidth() / 2), p.getY() - (playermarker.getHeight() / 2));
+            for (Pedestrian AI : Peds) {
+                if (AI != null) {
+                    AI.draw(batchMiniMap, 1);
+                }
             }
+            for (Police cop : police) {
+                if (cop != null) {
+                    cop.draw(batchMiniMap, p, delta);
+                }
+            }
+            batchMiniMap.end();
         }
-
-        batchMiniMap.end();
 
         batch.setProjectionMatrix(UI.combined);
 
         batch.begin();
 
-        font.draw(batch, "Health: " + (int) p.getHealth() / 2, 685, 520);
-        font.draw(batch, "Score: " + playerScore.returnScore(), 685, 500);
-        font.draw(batch, "Multiplier: x" + (int) ((Math.ceil(p.getWantedLvl() / 100)) + 1), 685, 480);
-        if (p.getWantedLvl() >= 100) {
-            font.draw(batch, "Wanted: " + (int) (Math.ceil((int) p.getWantedLvl() / 100)), 685, 460);
+        if ((int) ((Math.ceil(p.getWantedLvl() / 100))) < 10) {
+            multiplier = (int) ((Math.ceil(p.getWantedLvl() / 100)));
         }
-        if (p.getGunID() == 0) {
-            batch.draw(HUDfist, 712, 533, 50, 50);
-        } else if (p.getGunID() == 1) {
-            batch.draw(HUDm4, 687, 530, 100, 50);
+        if (!p.isDead()) {
+            font.draw(batch, "Health: " + (int) p.getHealth() / 2, 685, 520);
+            if (playerScore.returnScore() < 10000){
+            font.draw(batch, "Score: " + playerScore.returnScore(), 685, 500);
+            }else {
+                font.draw(batch, "Score: " + (int) (playerScore.returnScore()/ 1000) + "k", 685, 500);
+            }
+            font.draw(batch, "Multiplier: x" + multiplier, 685, 480);
+            if (p.getWantedLvl() >= 100) {
+                font.draw(batch, "Wanted: " + (int) (Math.ceil((int) p.getWantedLvl() / 100)), 685, 460);
+            }
+            if (p.getGunID() == 0) {
+                batch.draw(HUDfist, 712, 533, 50, 50);
+            } else if (p.getGunID() == 1) {
+                batch.draw(HUDm4, 687, 530, 100, 50);
+            }
+        }
+
+        if (p.isDead()) {
+            playerScore.saveHighscore();
+            batch.draw(HUDwasted, (Gdx.graphics.getWidth() / 2) - 100, (Gdx.graphics.getHeight() / 2) - 97);
+            font.setColor(Color.RED);
+            font.draw(batch, "Score: " + playerScore.returnHighscore(), (Gdx.graphics.getWidth() / 2) - 40, (Gdx.graphics.getHeight() / 2) + 30);
+            font.draw(batch, "Click to Restart", 1, 20);
         }
         batch.end();
+
+        //restart game if dead
+        if (p.isDead() && Gdx.input.isButtonPressed(Input.Keys.SPACE)) {
+            game.setScreen(new GameScreen(game));
+        }
     }
 
     @Override
@@ -446,7 +495,7 @@ public class GameScreen implements Screen {
 
         Assets.load();
 
-        p = new Player(200.0f, 300.0f);
+        p = new Player(4030.0f, 600.0f);
 
         for (int i = 0; i < Peds.length; i++) {
             if (Peds[i] == null) {

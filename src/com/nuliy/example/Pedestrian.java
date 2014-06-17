@@ -36,7 +36,7 @@ public class Pedestrian extends AI {
     }
 
     public void punched() {
-        health -= 2;
+        health -= 5;
     }
 
     public void shot() {

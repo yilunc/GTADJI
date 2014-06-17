@@ -34,12 +34,17 @@ public class Assets {
     public static TextureRegion deadPurple;
     public static TextureRegion deadCop;
     public static TextureRegion dead;
-    
     public static TextureRegion shootM4;
     public static TextureRegion flashM4;
     public static TextureRegion healthbar;
+
+    public static TextureRegion pm4flash;
+    
     public static Texture car;
 
+    public static TextureRegion standPolice;
+
+    public static Animation runM4;
     public static Animation runRight;
     public static Animation sprintRight;
     public static Animation runGreen;
@@ -56,41 +61,45 @@ public class Assets {
     public static Animation dyingPurple;
     public static Animation dyingGrey;
     public static Animation dyingCop;
-     public static Animation dying;
+    public static Animation dying;
+
+    public static Animation policeM4;
 
     public static Animation playerPunch90;
     public static Animation playerPunch180;
     public static Animation playerPunch270;
     public static Animation playerPunch360;
+    public static Animation playerPunch45;
+    public static Animation playerPunch135;
+    public static Animation playerPunch225;
+    public static Animation playerPunch315;
 
     public static void load() {
+        atlas = new TextureAtlas("pm4flash.pack");
+        pm4flash = atlas.findRegion("pm4flash");
+        
+        atlas = new TextureAtlas("policeM4.atlas");
+        standPolice = atlas.findRegion("police - 0");
+        policeM4 = new Animation(1 / 10f,
+                (atlas.findRegion("police - 1")),
+                (atlas.findRegion("police - 2")),
+                (atlas.findRegion("police - 1")),
+                (atlas.findRegion("police - 0")),
+                (atlas.findRegion("police - 3")),
+                (atlas.findRegion("police - 0")));
+
+        atlas = new TextureAtlas("playerM4.atlas");
+        runM4 = new Animation(1 / 4f,
+                (atlas.findRegion("playerM4 - 1")),
+                (atlas.findRegion("playerM4 - 2")),
+                (atlas.findRegion("playerM4 - 1")),
+                (atlas.findRegion("playerM4 - 0")),
+                (atlas.findRegion("playerM4 - 3")),
+                (atlas.findRegion("playerM4 - 0")));
+
         atlas = new TextureAtlas("walking.pack");
         stand = atlas.findRegion("walking - 3");
-        runRight = new Animation(1 / 10f,
-                (atlas.findRegion("walking - 0.5")),
-                (atlas.findRegion("walking - 1")),
-                (atlas.findRegion("walking - 2")),
-                (atlas.findRegion("walking - 2.5")),
-                (atlas.findRegion("walking - 3")),
-                (atlas.findRegion("walking - 3.5")),
-                (atlas.findRegion("walking - 4")),
-                (atlas.findRegion("walking - 5")),
-                (atlas.findRegion("walking - 4")),
-                (atlas.findRegion("walking - 3.5")),
-                (atlas.findRegion("walking - 3")),
-                (atlas.findRegion("walking - 2.5")),
-                (atlas.findRegion("walking - 2")),
-                (atlas.findRegion("walking - 1")),
-                (atlas.findRegion("walking - 0.5")),
-                (atlas.findRegion("walking - 2.5")),
-                (atlas.findRegion("walking - 3")),
-                (atlas.findRegion("walking - 3.5")),
-                (atlas.findRegion("walking - 4")),
-                (atlas.findRegion("walking - 5")),
-                (atlas.findRegion("walking - 4")),
-                (atlas.findRegion("walking - 3.5")),
-                (atlas.findRegion("walking - 3")));
-        sprintRight = new Animation(1 / 20f,
+        runRight = new Animation(1 / 7f,
                 (atlas.findRegion("walking - 0.5")),
                 (atlas.findRegion("walking - 1")),
                 (atlas.findRegion("walking - 2")),
@@ -147,7 +156,7 @@ public class Assets {
         dyingGreen = new Animation(1 / 2f,
                 (atlas.findRegion("DyingGreen1")),
                 (atlas.findRegion("DyingGreen-2")));
-        
+
         atlas = new TextureAtlas("DEAD.pack");
         dead = atlas.findRegion("DyingGreen-2");
         dying = new Animation(1 / 2f,
@@ -351,9 +360,9 @@ public class Assets {
         dyingCop = new Animation(1 / 2f,
                 (atlas.findRegion("DyingCop1")),
                 (atlas.findRegion("DyingCop2")));
-        
+
         atlas = new TextureAtlas("punch.pack");
-        playerPunch90 = new Animation(1 / 11f,
+        playerPunch90 = new Animation(1 / 7f,
                 (atlas.findRegion("punch 1 90")),
                 (atlas.findRegion("punch 2 90")),
                 (atlas.findRegion("punch 3 90")),
@@ -361,7 +370,7 @@ public class Assets {
                 (atlas.findRegion("punch 3 90")),
                 (atlas.findRegion("punch 2 90")),
                 (atlas.findRegion("punch 1 90")));
-        playerPunch180 = new Animation(1 / 11f,
+        playerPunch180 = new Animation(1 / 7f,
                 (atlas.findRegion("punch 1 180")),
                 (atlas.findRegion("punch 2 180")),
                 (atlas.findRegion("punch 3 180")),
@@ -369,7 +378,7 @@ public class Assets {
                 (atlas.findRegion("punch 3 180")),
                 (atlas.findRegion("punch 2 180")),
                 (atlas.findRegion("punch 1 180")));
-        playerPunch270 = new Animation(1 / 11f,
+        playerPunch270 = new Animation(1 / 7f,
                 (atlas.findRegion("punch 1 270")),
                 (atlas.findRegion("punch 2 270")),
                 (atlas.findRegion("punch 3 270")),
@@ -377,7 +386,7 @@ public class Assets {
                 (atlas.findRegion("punch 3 270")),
                 (atlas.findRegion("punch 2 270")),
                 (atlas.findRegion("punch 1 270")));
-        playerPunch360 = new Animation(1 / 11f,
+        playerPunch360 = new Animation(1 / 7f,
                 (atlas.findRegion("punch 1 360")),
                 (atlas.findRegion("punch 2 360")),
                 (atlas.findRegion("punch 3 360")),
@@ -385,11 +394,43 @@ public class Assets {
                 (atlas.findRegion("punch 3 360")),
                 (atlas.findRegion("punch 2 360")),
                 (atlas.findRegion("punch 1 360")));
+        playerPunch45 = new Animation(1 / 7f,
+                (atlas.findRegion("punch 1 45")),
+                (atlas.findRegion("punch 2 45")),
+                (atlas.findRegion("punch 3 45")),
+                (atlas.findRegion("punch 4 45")),
+                (atlas.findRegion("punch 3 45")),
+                (atlas.findRegion("punch 2 45")),
+                (atlas.findRegion("punch 1 45")));
+        playerPunch135 = new Animation(1 / 7f,
+                (atlas.findRegion("punch 1 135")),
+                (atlas.findRegion("punch 2 135")),
+                (atlas.findRegion("punch 3 135")),
+                (atlas.findRegion("punch 4 135")),
+                (atlas.findRegion("punch 3 135")),
+                (atlas.findRegion("punch 2 135")),
+                (atlas.findRegion("punch 1 135")));
+        playerPunch225 = new Animation(1 / 7f,
+                (atlas.findRegion("punch 1 215")),
+                (atlas.findRegion("punch 2 215")),
+                (atlas.findRegion("punch 3 215")),
+                (atlas.findRegion("punch 4 215")),
+                (atlas.findRegion("punch 3 215")),
+                (atlas.findRegion("punch 2 215")),
+                (atlas.findRegion("punch 1 215")));
+        playerPunch315 = new Animation(1 / 7f,
+                (atlas.findRegion("punch 1 315")),
+                (atlas.findRegion("punch 2 315")),
+                (atlas.findRegion("punch 3 315")),
+                (atlas.findRegion("punch 4 315")),
+                (atlas.findRegion("punch 3 315")),
+                (atlas.findRegion("punch 2 315")),
+                (atlas.findRegion("punch 1 315")));
 
         atlas = new TextureAtlas("M4Gun.pack");
         shootM4 = atlas.findRegion("M4Gun");
         flashM4 = atlas.findRegion("M4GunFlash");
-        
+
         atlas = new TextureAtlas("healthbar.atlas");
         healthbar = atlas.findRegion("healthbar");
     }

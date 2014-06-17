@@ -1,0 +1,12 @@
+
+pm4flash.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+pm4flash
+  rotate: false
+  xy: 1, 1
+  size: 108, 42
+  orig: 108, 42
+  offset: 0, 0
+  index: -1

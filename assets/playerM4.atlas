@@ -1,0 +1,33 @@
+
+playerM4.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+playerM4 - 3
+  rotate: false
+  xy: 1, 1
+  size: 93, 44
+  orig: 93, 44
+  offset: 0, 0
+  index: -1
+playerM4 - 1
+  rotate: false
+  xy: 96, 1
+  size: 87, 44
+  orig: 87, 44
+  offset: 0, 0
+  index: -1
+playerM4 - 2
+  rotate: false
+  xy: 185, 1
+  size: 84, 44
+  orig: 84, 44
+  offset: 0, 0
+  index: -1
+playerM4 - 0
+  rotate: false
+  xy: 271, 3
+  size: 85, 42
+  orig: 85, 42
+  offset: 0, 0
+  index: -1

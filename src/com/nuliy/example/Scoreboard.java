@@ -20,18 +20,19 @@ public class Scoreboard {
     }
 
     public void addScoreKilledPed(Player p) {
-        score += 100 * (Math.ceil(p.getWantedLvl()/100) + 1);
+        score += 100 * (Math.ceil(p.getWantedLvl()/100));
     }
 
     public void addScoreKilledCop(Player p) {
-        score += 300 * (Math.ceil(p.getWantedLvl()/100) + 1);
+        score += 300 * (Math.ceil(p.getWantedLvl()/100));
     }
 
     public void addScoreStoleCar(Player p) {
-        score += 50 * (Math.ceil(p.getWantedLvl()/100) + 1);
+        score += 50 * (Math.ceil(p.getWantedLvl()/100));
     }
 
     public void saveHighscore() {
+        if (score > highScore)
         highScore = score;
     }
 

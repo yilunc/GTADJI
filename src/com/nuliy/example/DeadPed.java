@@ -143,24 +143,4 @@ public class DeadPed {
     public Rectangle getBounds() {
         return bounds;
     }
-
-    public void handleCollision(Rectangle c) {
-        float x = Math.max(bounds.x, c.x);
-        float y = Math.max(bounds.y, c.y);
-        float width = Math.min(bounds.x + bounds.width, c.x + c.width) - x;
-        float height = Math.min(bounds.y + bounds.height, c.y + c.height) - y;
-        if (width < height) {
-            if (bounds.x < c.x) {
-                bounds.x = bounds.x - width;
-            } else {
-                bounds.x = bounds.x + width;
-            }
-        } else {
-            if (bounds.y > c.y) {
-                bounds.y = bounds.y + height;
-            } else {
-                bounds.y = bounds.y - height;
-            }
-        }
-    }
 }

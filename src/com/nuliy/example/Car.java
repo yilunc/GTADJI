@@ -6,6 +6,9 @@
 
 package com.nuliy.example;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -14,6 +17,9 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Scaling;
+import static com.nuliy.example.Assets.car;
 
 
 /**
@@ -38,13 +44,16 @@ public class Car {
     FixtureDef CarFixDef;
     PolygonShape CarBody;
     
+    private SpriteBatch batch;
+    private Texture car;
+         
     
-
     private final float MaxTurnAngle = (float) Math.PI / 3;
     private final float AngleSpeed = 10.5f;
     private final float SidewaysFriction = 10f;
     private final float Horsepower = 500f;
-
+    
+    private Rectangle bound;
     private float x;
     private float y;
     private float enginespeed;
@@ -54,10 +63,12 @@ public class Car {
 
     private Vector2 Cpos;
 
-    private final float width = 50;
-    private final float length = 70;
+    private boolean IsPControl;
+    
+    private final float width = 100;
+    private final float length = 45;
     private float angle;
-
+    
     private final float force = 6.6f * 1500f;
 
 //    BodyDef bodyD, FixtureDef fixtureD, 
@@ -87,7 +98,7 @@ public class Car {
         body.setType(BodyDef.BodyType.DynamicBody);
         
         //setting the body position in the world using the Vector given.
-        body.setTransform(this.Cpos, (float) ((Math.PI) / 2));
+        body.setTransform(this.Cpos, (float) ((Math.PI/2)));
 
         
  
@@ -99,8 +110,10 @@ public class Car {
 
      
         body.createFixture(CarFixDef);
-
-      
+        
+        car = new Texture(Gdx.files.internal("Car.png"));
+        this.bound = new Rectangle(this.x,this.y, Assets.car.getWidth(), Assets.car.getHeight());
+        IsPControl = false;
 
     }
 
@@ -114,9 +127,54 @@ public class Car {
 
         body.setLinearVelocity(sideways);
     }
+    
+    public float GetX()
+    {
+        return this.x;
+    }
+    
+    public Rectangle GetBound()
+    {
+        
+        return this.bound;
+    }
+    
+    public void HandleCollison(Rectangle roads)
+    {
+        float xMax = Math.max(this.x, roads.x);
+        float yMax = Math.max(this.y, roads.y);
+        float width1 = Math.min(this.x + bound.width, roads.x + roads.width) - xMax;
+        float height = Math.min(this.y + bound.height, roads.y + roads.height) - yMax;
+        if (width1 < height) 
+        {
+            if (this.x > roads.x) {
+                this.x = this.x - width1;
+            } else {
+                this.x = this.x + width1;
+            }
+        } 
+        else 
+        {
+            if (this.y < roads.y) {
+                this.y = this.y + height;
+            } else {
+                this.y = this.y - height;
+            }
+        }
+    }
+    
+    public float GetY()
+    {
+        return this.y;
+    }
 
     public Vector2 GetCarPos() {
         return Cpos;
+    }
+    
+    public Vector2 GetVelocity()
+    {
+        return this.body.getLinearVelocity();
     }
 
     public float GetCarAng() {
@@ -125,12 +183,10 @@ public class Car {
         return angle;
     }
 
-    public void GetCarV() {
-        this.body.getLinearVelocityFromWorldPoint(Cpos);
-    }
+    
 
     public void Up() {
-        body.applyForceToCenter((float)(Math.cos(body.getAngle())*force),(float)(Math.sin(body.getAngle())*force), true);
+        body.applyForceToCenter((float)(Math.cos(body.getAngle() - Math.PI/2)*force),(float)(Math.sin(body.getAngle() - Math.PI/2)*force), true);
     }
 
     public void TurnLeft() {
@@ -164,17 +220,30 @@ public class Car {
     }
 
     public void Reverse() {
-        body.applyForceToCenter((float)(Math.cos(body.getAngle())*-force),(float)(Math.sin(body.getAngle())*-force), true);
+        this.body.applyForceToCenter((float)(Math.cos(body.getAngle() - Math.PI/2)*-force),(float)(Math.sin(body.getAngle() - Math.PI/2)*-force), true);
     }
 
     public void NoAcceleration() {
-        body.setLinearDamping(0.1f);
+        this.body.setLinearDamping(0.1f);
     }
 
     public void noTurn() {
-        body.setAngularDamping(2f);
+        this.body.setAngularDamping(2f);
     }
-
+    
+    public boolean isPlayerCon(boolean InCar)
+    {
+        this.IsPControl = InCar;
+        return IsPControl;
+    }
+    
+    
+    public void draw(SpriteBatch batch)
+    {
+        
+        batch.draw(Assets.car, this.x - (Assets.car.getWidth() /1.5f), this.y - (Assets.car.getHeight() / 1.3f), this.width*2, this.length*2);
+    } 
+    
     public void updateCar(float dt) {
         Vector2 zeroV = new Vector2 (0,0);
         if((body.getLinearVelocity() == zeroV) && (body.getAngularVelocity() != 0f))
@@ -210,8 +279,7 @@ public class Car {
 
     public void render(Matrix4 combined) {
         box2Drender.render(world, combined);
+        
+        
     }
 }
-
-
-
